@@ -12,6 +12,9 @@ module.exports = function(app) {
 	app.route('/api/files')
 		.post(users.requiresLogin, datacollectors.upload);
 
+	//app.route('/api/salesforce_update')
+	//	.post(users.requiresLogin, datacollectors.salesforce_update);
+
 	app.route('/datacollectors/:datacollectorId')
 		.get(datacollectors.read)
 		.put(users.requiresLogin, datacollectors.hasAuthorization, datacollectors.update)

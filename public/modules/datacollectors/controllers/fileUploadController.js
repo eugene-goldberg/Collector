@@ -209,8 +209,20 @@ angular.module('datacollectors').controller('FileUploadController',
 
         $scope.selectedYear="";
 
-        $scope.sayHello = function(data){
-            console.log('this is sayHello  ' + $scope.kwRequired);
+        $scope.postUpdate = function(){
+            console.log('kwRequired  ' + $scope.kwRequired);
+            var postData = {
+                opportunityId: $scope.opportunityId,
+                opportunityName: $scope.opportunityName,
+                accountName: $scope.accountName,
+                dcName: $scope.dcName,
+                dcCountry: $scope.dcCountry,
+                dcSiteCode: $scope.dcSiteCode,
+                dcSku: $scope.dcSku,
+                kw: $scope.kwRequired
+            };
+            var json = angular.toJson(postData);
+            $http.post('/salesforce_update', json);
         }
     }
 ]);

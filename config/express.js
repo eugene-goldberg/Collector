@@ -78,6 +78,11 @@ module.exports = function(db) {
 		}
 	}));
 
+    app.use(bodyParser.urlencoded({
+        extended: true
+    }));
+    app.use(bodyParser.json());
+
 	app.get('/mongodata', function(req, res){
 		console.log('Request Successful');
 		console.log('_parsedUrl.query:  ' + req._parsedUrl.query);
@@ -198,8 +203,12 @@ module.exports = function(db) {
 		});
 	});
 
-	app.use(bodyParser.json());
-	app.use(bodyParser.urlencoded({ extended: false }));
+	app.post('/salesforce_update', function(req, res){
+		console.log('Salesforce update Request Received');
+		console.log('request body:  ' + req.body);
+	});
+
+
 
 	// Showing stack errors
 	app.set('showStackError', true);
