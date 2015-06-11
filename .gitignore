@@ -9,3 +9,8 @@
 Dockerfile
 LICENSE.md
 Procfile
+dummyPaging.js
+fig.yml
+generate-ssl-certs.sh
+gruntfile.js
+karma.conf.js
