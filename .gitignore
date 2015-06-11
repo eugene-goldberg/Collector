@@ -1,0 +1,11 @@
+# Created by .ignore support plugin (hsz.mobi)
+.bowerrc
+.csslintrc
+.editorconfig
+.idea/
+.jshintrc
+.slugignore
+.travis.yml
+Dockerfile
+LICENSE.md
+Procfile

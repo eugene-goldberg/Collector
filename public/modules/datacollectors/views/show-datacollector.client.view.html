@@ -1,0 +1,74 @@
+<div data-ng-controller="TabController" class="container form-group">
+    <br>
+    <tabset>
+        <tab ng-repeat="workspace in workspaces"
+             heading="{{workspace.name}}"
+             active=workspace.active>
+            <div ng-controller="FileUploadController">
+                <hr>
+
+                <form name="form" ng-submit="sayHello()">
+                <div class="form-group">
+                    <fieldset>
+                        <legend><strong>Salesforce Opportunity</strong> </legend>
+                        <div class="col-sm-6">
+                            <label for="opportunityId">Opportunity ID</label>
+                            <input id="opportunityId" name="opportunityId" type="text" placeholder="opportunity id" class="form-control" ng-model="opportunityId"/>
+                            <label for="opportunityName">Opportunity Name</label>
+                            <input id="opportunityName" name="opportunityName" type="text" placeholder="opportunity name" class="form-control" ng-model="opportunityName"/>
+                            <label for="accountName">Account Name</label>
+                            <input id="accountName" name="accountName" type="text" placeholder="account name" class="form-control" required ng-model="accountName"/>
+
+                            <div class="col-sm-4">
+                                <label for="year">Select a Year</label>
+                                <div id="year">
+                                    <isteven-multi-select
+                                            input-model="years"
+                                            output-model="selectedYear"
+                                            button-label="icon name"
+                                            item-label="icon name maker"
+                                            tick-property="ticked"
+                                            selection-mode="single"
+                                            >
+                                    </isteven-multi-select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="kwRequired">kW Required</label>
+                                <input id="kwRequired" name="kwRequired" type="text" placeholder="kW" class="form-control" required ng-model="kwRequired"/>
+                            </div>
+                            <br>
+                            <input type="submit" id="submit" value="Submit" />
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label for="dcName">Data Center Name</label>
+                            <input id="dcName" name="dcName" type="text" placeholder="data center name" class="form-control" ng-model="workspace.name"/>
+
+                            <label for="dcCountry">Data Center Country</label>
+                            <input id="dcCountry" name="dcCountry" type="text" class="form-control" ng-model="dcCountry"/>
+
+                            <label for="dcSiteCode">Data Center Site Code</label>
+                            <input id="dcSiteCode" name="dcSiteCode" type="text" class="form-control" placeholder="data center site code" required ng-model="dcSiteCode"/>
+                            <label for="dcSku">Data Center SKU</label>
+                            <input id="dcSku" name="dcSku" type="text" class="form-control" ng-model="dcSku"/>
+                        </div>
+                    </fieldset>
+
+                </div>
+                </form>
+            </div>
+        </tab>
+        <tab select="addWorkspace()">
+            <tab-heading> Add Data Cneter
+                <i class="icon-plus-sign"></i>
+            </tab-heading>
+        </tab>
+        <tab select="removeWorkspace()">
+            <tab-heading> Remove Selected Data Ceneter
+                <i class="icon-plus-sign"></i>
+            </tab-heading>
+        </tab>
+    </tabset>
+    <br/>
+</div>

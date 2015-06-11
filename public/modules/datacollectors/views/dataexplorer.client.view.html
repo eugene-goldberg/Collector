@@ -1,0 +1,48 @@
+<div ng-controller="dataExplorerController">
+    <div  >
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4">
+                    <br>
+                    <label for="category">Category name</label>
+                    <div id="category">
+                        <isteven-multi-select
+                                input-model="inputCategories"
+                                output-model="outputCategories"
+                                button-label="icon name"
+                                item-label="icon name maker"
+                                tick-property="ticked"
+                                selection-mode="single"
+                                on-item-click="getDataVersionsForSelectedCategory( data )"
+                                >
+                        </isteven-multi-select>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <br>
+                    <label for="dataVersion">Data version</label>
+
+                    <div id="dataVersion">
+                        <isteven-multi-select
+                                input-model="dataVersionValues"
+                                output-model="outputDataVersions"
+                                button-label="icon name"
+                                item-label="icon name maker"
+                                tick-property="ticked"
+                                selection-mode="single"
+                                on-item-click="getSelectedDataVersion( data )"
+                                >
+                        </isteven-multi-select>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <br><br><br>
+                    <button ng-click="getData()">Get data</button>
+                </div>
+                <div class="col-sm-12">
+                    <div  dx-data-grid="gridOptions"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
