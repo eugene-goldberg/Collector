@@ -5,10 +5,9 @@
              heading="{{workspace.name}}"
              active=workspace.active>
             <div ng-controller="FileUploadController">
-                <hr>
-
                 <form name="form" ng-submit="postUpdate()">
                 <div class="form-group">
+                    <br>
                     <fieldset>
                         <legend><strong>Salesforce Opportunity</strong> </legend>
                         <div class="col-sm-6">
@@ -19,26 +18,7 @@
                             <label for="accountName">Account Name</label>
                             <input id="accountName" name="accountName" type="text" placeholder="account name" class="form-control" required ng-model="accountName"/>
 
-                            <div class="col-sm-4">
-                                <label for="year">Select a Year</label>
-                                <div id="year">
-                                    <isteven-multi-select
-                                            input-model="years"
-                                            output-model="selectedYear"
-                                            button-label="icon name"
-                                            item-label="icon name maker"
-                                            tick-property="ticked"
-                                            selection-mode="single"
-                                            >
-                                    </isteven-multi-select>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <label for="kwRequired">kW Required</label>
-                                <input id="kwRequired" name="kwRequired" type="text" placeholder="kW" class="form-control" required ng-model="kwRequired"/>
-                            </div>
                             <br>
-                            <input type="submit" id="submit" value="Submit" />
                         </div>
 
                         <div class="col-sm-6">
@@ -52,6 +32,55 @@
                             <input id="dcSiteCode" name="dcSiteCode" type="text" class="form-control" placeholder="data center site code" required ng-model="dcSiteCode"/>
                             <label for="dcSku">Data Center SKU</label>
                             <input id="dcSku" name="dcSku" type="text" class="form-control" ng-model="dcSku"/>
+                        </div>
+
+                        <div>
+                            <br>
+                            <h4>kW Requirement for each contract year</h4>
+                            <hr>
+                        </div>
+                        <div class="col-sm-1">
+                        <label for="kwRequired_2016">2016</label>
+                        <input id="kwRequired_2016" name="kwRequired_2016" type="text" placeholder="kW" class="form-control" required ng-model="kwRequired_2016"/>
+                        </div>
+                        <div class="col-sm-1">
+                            <label for="kwRequired_2017">2017</label>
+                            <input id="kwRequired_2017" name="kwRequired_2017" type="text" placeholder="kW" class="form-control" required ng-model="kwRequired_2017"/>
+                        </div>
+                        <div class="col-sm-1">
+                            <label for="kwRequired_2018">2018</label>
+                            <input id="kwRequired_2018" name="kwRequired_2018" type="text" placeholder="kW" class="form-control" required ng-model="kwRequired_2018"/>
+                        </div>
+                        <div class="col-sm-1">
+                            <label for="kwRequired_2019">2019</label>
+                            <input id="kwRequired_2019" name="kwRequired_2019" type="text" placeholder="kW" class="form-control" required ng-model="kwRequired_2019"/>
+                        </div>
+                        <div class="col-sm-1">
+                            <label for="kwRequired_2020">2020</label>
+                            <input id="kwRequired_2020" name="kwRequired_2020" type="text" placeholder="kW" class="form-control" required ng-model="kwRequired_2020"/>
+                        </div>
+                        <div class="col-sm-1">
+                            <label for="kwRequired_2021">2021</label>
+                            <input id="kwRequired_2021" name="kwRequired_2021" type="text" placeholder="kW" class="form-control" required ng-model="kwRequired_2021"/>
+                        </div>
+                        <div class="col-sm-1">
+                            <label for="kwRequired_2022">2022</label>
+                            <input id="kwRequired_2022" name="kwRequired_2022" type="text" placeholder="kW" class="form-control" required ng-model="kwRequired_2022"/>
+                        </div>
+                        <div class="col-sm-1">
+                            <label for="kwRequired_2023">2023</label>
+                            <input id="kwRequired_2023" name="kwRequired_2023" type="text" placeholder="kW" class="form-control" required ng-model="kwRequired_2023"/>
+                        </div>
+                        <div class="col-sm-1">
+                            <label for="kwRequired_2024">2024</label>
+                            <input id="kwRequired_2024" name="kwRequired_2024" type="text" placeholder="kW" class="form-control" required ng-model="kwRequired_2024"/>
+                        </div>
+                        <div class="col-sm-1">
+                            <label for="kwRequired_2025">2025</label>
+                            <input id="kwRequired_2025" name="kwRequired_2025" type="text" placeholder="kW" class="form-control" required ng-model="kwRequired_2025"/>
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="submit" id="submit" value="Submit" />
                         </div>
                     </fieldset>
 

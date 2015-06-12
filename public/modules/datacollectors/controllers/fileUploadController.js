@@ -219,7 +219,16 @@ angular.module('datacollectors').controller('FileUploadController',
                 dcCountry: $scope.dcCountry,
                 dcSiteCode: $scope.dcSiteCode,
                 dcSku: $scope.dcSku,
-                kw: $scope.kwRequired
+                kwRequired_2016: $scope.kwRequired_2016,
+                kwRequired_2017: $scope.kwRequired_2017,
+                kwRequired_2018: $scope.kwRequired_2018,
+                kwRequired_2019: $scope.kwRequired_2019,
+                kwRequired_2020: $scope.kwRequired_2020,
+                kwRequired_2021: $scope.kwRequired_2021,
+                kwRequired_2022: $scope.kwRequired_2022,
+                kwRequired_2023: $scope.kwRequired_2023,
+                kwRequired_2024: $scope.kwRequired_2024,
+                kwRequired_2025: $scope.kwRequired_2025
             };
             var json = angular.toJson(postData);
             $http.post('/salesforce_update', json);
