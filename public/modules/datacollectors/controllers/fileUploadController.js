@@ -11,9 +11,6 @@ angular.module('datacollectors').controller('FileUploadController',
         var url = 'http://dctool-lnx.cloudapp.net:3001/api/files';
 
         var uploader = $scope.uploader = new FileUploader({
-            //url: 'http://dctool-lnx.cloudapp.net:3001/api/files',
-            //url:    url,
-            //tabName: 'sheet1'
         });
 
         console.log('This is FileUploadController');
@@ -207,6 +204,46 @@ angular.module('datacollectors').controller('FileUploadController',
             }
         ];
 
+        $scope.workspaces =
+            [
+                { id: 1, name: "dc" ,active:true  },
+                { id: 2, name: 'dc-2' ,active:false  }
+            ];
+
+        $scope.dcNames = [
+            {
+                name: "Newark"
+            },
+            {
+                name: "Meriden"
+            },
+            {
+                name: "Chicago"
+            },
+            {
+                name: "Ottawa"
+            }
+        ];
+
+        $scope.selectedDcName=[{}];
+
+        //$scope.selectedDcName = [{name: "dc", ticked: true}];
+
+
+
+        $scope.$watch(function(scope) {return  $scope.selectedDcName },
+            function(newValue, oldValue) {
+                if(newValue[0]){
+                    console.log('new value:  ' + newValue[0].name);
+                }
+
+                if(newValue[0]){
+                    $scope.$parent.selectedName = newValue[0].name;
+                }
+
+            }
+        );
+
         $scope.selectedYear="";
 
         $scope.postUpdate = function(){
@@ -215,7 +252,7 @@ angular.module('datacollectors').controller('FileUploadController',
                 opportunityId: $scope.opportunityId,
                 opportunityName: $scope.opportunityName,
                 accountName: $scope.accountName,
-                dcName: $scope.dcName,
+                dcName: $scope.$parent.selectedName,
                 dcCountry: $scope.dcCountry,
                 dcSiteCode: $scope.dcSiteCode,
                 dcSku: $scope.dcSku,
@@ -232,6 +269,55 @@ angular.module('datacollectors').controller('FileUploadController',
             };
             var json = angular.toJson(postData);
             $http.post('/salesforce_update', json);
-        }
+        };
+
+        /////////////////////// TabController's functionality:
+
+        var setAllInactive = function() {
+            angular.forEach($scope.workspaces, function(workspace) {
+                workspace.active = false;
+            });
+        };
+
+        $scope.activeWorkspaceSheetName = function(){
+            $scope.workspaces.forEach(function(workspace) {
+                if(workspace.active){
+                    return workspace.name;
+                }
+            });
+        };
+
+        var addNewWorkspace = function() {
+            var id = $scope.workspaces.length + 1;
+            $scope.workspaces.push({
+                id: id,
+                name:  "dc-" + id,
+                active: true
+            });
+        };
+
+        $scope.workspaces =
+            [
+                { id: 1, name: "dc" ,active:true  },
+                { id: 2, name: 'dc-2' ,active:false  }
+            ];
+
+        $scope.addWorkspace = function () {
+            setAllInactive();
+            addNewWorkspace();
+        };
+
+        $scope.removeWorkspace = function() {
+            angular.forEach($scope.workspaces, function(workspace) {
+                if(workspace.active){
+                    var index = $scope.workspaces.indexOf(workspace);
+                    console.log('Active Workspace id: ' + index);
+                    $scope.workspaces.splice(index,1);
+                }
+            });
+        };
+
+
+        ///////////////////////////
     }
 ]);

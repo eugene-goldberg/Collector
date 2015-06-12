@@ -1,10 +1,12 @@
-<div data-ng-controller="TabController" class="container form-group">
+<div ng-controller="FileUploadController" class="container form-group">
     <br>
     <tabset>
         <tab ng-repeat="workspace in workspaces"
-             heading="{{workspace.name}}"
+             heading="{{selectedName || 'DC'}}"
              active=workspace.active>
+
             <div ng-controller="FileUploadController">
+                <h4>selectedDcName:  {{selectedDcName[0].name}}</h4>
                 <form name="form" ng-submit="postUpdate()">
                 <div class="form-group">
                     <br>
@@ -22,8 +24,20 @@
                         </div>
 
                         <div class="col-sm-6">
+                            <!--<label for="dcName">Data Center Name</label>-->
+                            <!--<input id="dcName" name="dcName" type="text" placeholder="data center name" class="form-control" ng-model="workspace.name"/>-->
                             <label for="dcName">Data Center Name</label>
-                            <input id="dcName" name="dcName" type="text" placeholder="data center name" class="form-control" ng-model="workspace.name"/>
+                            <div id="dcName">
+                                <isteven-multi-select
+                                        input-model="dcNames"
+                                        output-model="selectedDcName"
+                                        button-label="icon name"
+                                        item-label="icon name maker"
+                                        tick-property="ticked"
+                                        selection-mode="single"
+                                        >
+                                </isteven-multi-select>
+                            </div>
 
                             <label for="dcCountry">Data Center Country</label>
                             <input id="dcCountry" name="dcCountry" type="text" class="form-control" ng-model="dcCountry"/>
@@ -31,7 +45,7 @@
                             <label for="dcSiteCode">Data Center Site Code</label>
                             <input id="dcSiteCode" name="dcSiteCode" type="text" class="form-control" placeholder="data center site code" required ng-model="dcSiteCode"/>
                             <label for="dcSku">Data Center SKU</label>
-                            <input id="dcSku" name="dcSku" type="text" class="form-control" ng-model="dcSku"/>
+                            <input id="dcSku" name="dcSku" type="text" placeholder="data center sku" class="form-control" ng-model="dcSku"/>
                         </div>
 
                         <div>
