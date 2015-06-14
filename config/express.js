@@ -144,26 +144,39 @@ module.exports = function(db) {
 		});
 	});
 
-    //app.get('/user/?id=' + req.session.passport.user, function(req,res){
-    //    var url_parts = requestUrl.parse(req.url, true);
-    //    var query = url_parts.query;
-    //    MongoClient.connect(url, function (err, db) {
-    //        if (err) {
-    //            console.log('Unable to connect to the mongoDB server. Error:', err);
-    //        } else {
-    //            console.log('Connection established to', url);
-    //
-    //            var collection = db.collection('users');
-    //
-    //            collection.find({_id: query.id},function(err, docs) {
-    //                //console.log(docs);
-    //                res.json(docs);
-    //                assert.equal(null, err);
-    //                db.close();
-    //            });
-    //        }
-    //    });
-    //});
+    app.get('/opportunities', function(req,res){
+        var url_parts = requestUrl.parse(req.url, true);
+        var query = url_parts.query;
+        MongoClient.connect(url, function (err, db) {
+            if (err) {
+                console.log('Unable to connect to the mongoDB server. Error:', err);
+            } else {
+                console.log('Connection established to', url);
+
+                var collection = db.collection('DC_Facilities');
+
+                var opportunityDetail = {};
+
+                collection.find({CSCOpportunityID: query.opportunityId, Subject: "salesforce-power"},
+                    function(err, docs) {
+                        var opportunityDetail = {};
+                    docs.forEach(function(doc){
+                        for(var prop in doc){
+                            console.log('opportunity prop name: ' + prop);
+                            console.log('prop value is  : ' + doc[prop]);
+                            if(prop === 'OpportunityNmae' || prop === 'AccountName'){
+                                opportunityDetail.OpportunityName = doc['OpportunityName'];
+                                opportunityDetail.AccountName = doc['AccountName'];
+
+                                res.json(opportunityDetail);
+                                assert.equal(null, err);
+                            }
+                        }
+                    });
+                });
+            }
+        });
+    });
 
 	app.get('/opportunity_ids', function(req, res){
 		console.log('opportunity_idsRequest Successful');
@@ -180,14 +193,6 @@ module.exports = function(db) {
 			if (err) {
 				console.log('Unable to connect to the mongoDB server. Error:', err);
 			} else {
-
-                //var collection = db.collection('users');
-                //collection.find({_id: query.id},function(err, docs) {
-                //    docs.forEach(function(doc){
-                //        user = doc;
-                //    })
-                //});
-
                 var collection = db.collection('users');
                 collection.find({}).toArray(function(err, docs) {
                     docs.forEach(function(user){

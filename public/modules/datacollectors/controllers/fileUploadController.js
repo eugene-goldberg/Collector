@@ -122,6 +122,25 @@ angular.module('datacollectors').controller('FileUploadController',
             });
         }
 
+        function getOpportunityDetails(opportunityId){
+            $http.get('/opportunities/?opportunityId=' + opportunityId).success(function(response) {
+
+
+                for(var prop in response){
+                    console.log('response prop: ' + prop);
+                    console.log('response prop value: ' + response[prop]);
+                }
+                    $scope.opportunityName = response.OpportunityName;
+                    $scope.accountName = response.AccountName;
+
+
+                console.log('response: ' + response);
+                console.log('opportunityName: ' + $scope.opportunityName);
+                console.log('accountName: ' + $scope.accountName);
+
+            });
+        }
+
         getEnvironment();
 
         initOpportunityIdList();
