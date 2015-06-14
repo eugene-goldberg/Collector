@@ -2,8 +2,10 @@
 
 // FileUploadController controller
 angular.module('datacollectors').controller('FileUploadController',
-    ['$scope', '$http', '$stateParams', '$location', 'Authentication', 'Datacollectors', 'FileUploader',
-    function($scope, $http, $stateParams, $location, Authentication, Datacollectors, FileUploader) {
+    ['$scope', '$http', '$stateParams', '$location',
+        'Authentication', 'Datacollectors', 'FileUploader','$rootScope',
+    function($scope, $http, $stateParams, $location, Authentication,
+             Datacollectors, FileUploader,$rootScope) {
         $scope.authentication = Authentication;
 
         $scope.uploadUrl = '';
@@ -108,7 +110,21 @@ angular.module('datacollectors').controller('FileUploadController',
             };
         }
 
+        function initOpportunityIdList(){
+            //for(var prop in $rootScope){
+            //    console.log('root scope property name  : ' + prop);
+            //}
+            $http.get('/opportunity_ids').success(function(response) {
+                console.log('found ' + response.length + ' records for salesforce-power');
+                response.forEach(function(opportunity){
+                    $scope.opportunityIds.push(opportunity);
+                });
+            });
+        }
+
         getEnvironment();
+
+        initOpportunityIdList();
 
         var selectedCategory;
         var selectedDataVersion;
@@ -225,6 +241,10 @@ angular.module('datacollectors').controller('FileUploadController',
             }
         ];
 
+        $scope.opportunityIds = [
+
+        ];
+
         $scope.selectedDcName=[{}];
 
         //$scope.selectedDcName = [{name: "dc", ticked: true}];
@@ -243,6 +263,19 @@ angular.module('datacollectors').controller('FileUploadController',
 
             }
         );
+
+        $scope.$watch(function(scope) {return  $scope.selectedOpportunity },
+            function(newValue, oldValue) {
+                if(newValue){
+                    if(newValue[0]){
+                        console.log('new opportunity id:  ' + newValue[0].name);
+                        getOpportunityDetails(newValue[0].name);
+                    }
+                }
+            }
+        );
+
+
 
         $scope.selectedYear="";
 

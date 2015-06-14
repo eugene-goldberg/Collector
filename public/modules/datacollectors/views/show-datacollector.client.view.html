@@ -6,15 +6,27 @@
              active=workspace.active>
 
             <div ng-controller="FileUploadController">
-                <h4>selectedDcName:  {{selectedDcName[0].name}}</h4>
+                <!--<h4>selectedDcName:  {{selectedDcName[0].name}}</h4>-->
                 <form name="form" ng-submit="postUpdate()">
                 <div class="form-group">
                     <br>
                     <fieldset>
                         <legend><strong>Salesforce Opportunity</strong> </legend>
                         <div class="col-sm-6">
+                            <!--<label for="opportunityId">Opportunity ID</label>-->
+                            <!--<input id="opportunityId" name="opportunityId" type="text" placeholder="opportunity id" class="form-control" ng-model="opportunityId"/>-->
                             <label for="opportunityId">Opportunity ID</label>
-                            <input id="opportunityId" name="opportunityId" type="text" placeholder="opportunity id" class="form-control" ng-model="opportunityId"/>
+                            <div id="opportunityId">
+                                <isteven-multi-select
+                                        input-model="opportunityIds"
+                                        output-model="selectedOpportunity"
+                                        button-label="icon name"
+                                        item-label="icon name maker"
+                                        tick-property="ticked"
+                                        selection-mode="single"
+                                        >
+                                </isteven-multi-select>
+                            </div>
                             <label for="opportunityName">Opportunity Name</label>
                             <input id="opportunityName" name="opportunityName" type="text" placeholder="opportunity name" class="form-control" ng-model="opportunityName"/>
                             <label for="accountName">Account Name</label>

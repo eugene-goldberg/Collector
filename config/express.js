@@ -83,6 +83,16 @@ module.exports = function(db) {
     }));
     app.use(bodyParser.json());
 
+    app.use(session({
+        saveUninitialized: true,
+        resave: true,
+        secret: config.sessionSecret,
+        store: new mongoStore({
+            db: db.connection.db,
+            collection: config.sessionCollection
+        })
+    }));
+
 	app.get('/mongodata', function(req, res){
 		console.log('Request Successful');
 		console.log('_parsedUrl.query:  ' + req._parsedUrl.query);
@@ -130,18 +140,79 @@ module.exports = function(db) {
 						db.close();
 					});
 				}
-
-
-				//collection.find({DataVersion: query.dataVersion,
-				//					Subject: query.subject
-				//}).toArray(function(err, docs) {
-				//	//console.log(docs);
-				//	res.json(docs);
-				//	assert.equal(null, err);
-				//	db.close();
-				//});
-
 			}
+		});
+	});
+
+    //app.get('/user/?id=' + req.session.passport.user, function(req,res){
+    //    var url_parts = requestUrl.parse(req.url, true);
+    //    var query = url_parts.query;
+    //    MongoClient.connect(url, function (err, db) {
+    //        if (err) {
+    //            console.log('Unable to connect to the mongoDB server. Error:', err);
+    //        } else {
+    //            console.log('Connection established to', url);
+    //
+    //            var collection = db.collection('users');
+    //
+    //            collection.find({_id: query.id},function(err, docs) {
+    //                //console.log(docs);
+    //                res.json(docs);
+    //                assert.equal(null, err);
+    //                db.close();
+    //            });
+    //        }
+    //    });
+    //});
+
+	app.get('/opportunity_ids', function(req, res){
+		console.log('opportunity_idsRequest Successful');
+		console.log('_parsedUrl.query:  ' + req._parsedUrl.query);
+
+		var url_parts = requestUrl.parse(req.url, true);
+		var query = url_parts.query;
+
+		var dataVersion = req.query.dataVersion;
+
+        var user = req.user;
+
+		MongoClient.connect(url, function (err, db) {
+			if (err) {
+				console.log('Unable to connect to the mongoDB server. Error:', err);
+			} else {
+
+                //var collection = db.collection('users');
+                //collection.find({_id: query.id},function(err, docs) {
+                //    docs.forEach(function(doc){
+                //        user = doc;
+                //    })
+                //});
+
+                var collection = db.collection('users');
+                collection.find({}).toArray(function(err, docs) {
+                    docs.forEach(function(user){
+                        //console.log('user id:  ' + user._id.toString());
+                        if(user._id.toString() === req.session.passport.user){
+                            console.log('found our current user:  ' + user.username);
+
+                            var collection = db.collection('DC_Facilities');
+
+                            collection.distinct('CSCOpportunityID', {OpportunityOwner: user.username},
+                                (function(err, docs) {
+                                    //console.log(docs);
+                                    var idList = [];
+                                    docs.forEach(function(doc){
+                                        idList.push({name: doc});
+                                    });
+                                    res.json(idList);
+                                    assert.equal(null, err);
+                                    db.close();
+                                }));
+                        }
+                    });
+
+                });
+				}
 		});
 	});
 
