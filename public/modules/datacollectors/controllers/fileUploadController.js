@@ -301,7 +301,7 @@ angular.module('datacollectors').controller('FileUploadController',
         $scope.postUpdate = function(){
             console.log('kwRequired  ' + $scope.kwRequired);
             var postData = {
-                opportunityId: $scope.opportunityId,
+                opportunityId: $scope.selectedOpportunity[0].name,
                 opportunityName: $scope.opportunityName,
                 accountName: $scope.accountName,
                 dcName: $scope.$parent.selectedName,

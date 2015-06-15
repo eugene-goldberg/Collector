@@ -282,6 +282,39 @@ module.exports = function(db) {
 	app.post('/salesforce_update', function(req, res){
 		console.log('Salesforce update Request Received');
 		console.log('request body:  ' + req.body);
+
+        MongoClient.connect(url, function (err, db) {
+            if (err) {
+                console.log('Unable to connect to the mongoDB server. Error:', err);
+            } else {
+                console.log('Connection established to', url);
+                console.log('req.body.kwRequired_2016}', req.body.kwRequired_2016);
+                var collection = db.collection('DC_Facilities');
+                collection.update(
+                    {CSCOpportunityID:  req.body.opportunityId},
+                    {$set:
+                    {FY16: req.body.kwRequired_2016,
+                        FY17: req.body.kwRequired_2017,
+                        FY18: req.body.kwRequired_2018,
+                        FY19: req.body.kwRequired_2019,
+                        FY20: req.body.kwRequired_2020,
+                        FY21: req.body.kwRequired_2021,
+                        FY22: req.body.kwRequired_2022,
+                        FY23: req.body.kwRequired_2023,
+                        FY24: req.body.kwRequired_2024,
+                        FY25: req.body.kwRequired_2025
+                    }
+                    },
+                    function(err, result){
+                    if(err){
+                        console.log('err:  ' + err);
+                    }
+                        else{
+                        console.log('update result:  ' + result);
+                    }
+                });
+            }
+        });
 	});
 
 
