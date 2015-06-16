@@ -253,32 +253,6 @@ module.exports = function(db) {
 		});
 	});
 
-	app.post('/collections_metadata', function(req, res){
-		console.log('Request Successful');
-		console.log('_parsedUrl.query:  ' + req._parsedUrl.query);
-
-		MongoClient.connect(url, function (err, db) {
-			if (err) {
-				console.log('Unable to connect to the mongoDB server. Error:', err);
-			} else {
-				console.log('Connection established to', url);
-
-				//re-calculate the distinct value of 'DataFialds':
-
-				var distinctDataFields;
-
-				var collection = db.collection('Fixed_Asset_Register');
-
-				collection.distinct('DataFields',function(err, docs){
-					console.log('Distinct Data Fields:  ' + docs);
-					distinctDataFields = docs;
-					assert.equal(null, err);
-				});
-
-			}
-		});
-	});
-
 	app.post('/salesforce_update', function(req, res){
 		console.log('Salesforce update Request Received');
 		console.log('request body:  ' + req.body);

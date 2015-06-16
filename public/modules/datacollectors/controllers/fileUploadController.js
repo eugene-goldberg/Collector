@@ -122,6 +122,18 @@ angular.module('datacollectors').controller('FileUploadController',
             });
         }
 
+        function initDcList(){
+            //for(var prop in $rootScope){
+            //    console.log('root scope property name  : ' + prop);
+            //}
+            $http.get('/mongodata/?collectionName=DC_Facilities&subject=datacenter-listing').success(function(response) {
+                console.log('found ' + response.length + ' records for datacenter-listing');
+                response.forEach(function(record){
+                    $scope.dcNames.push({name: record.DataCenterName, country: record.Country, siteCode: record.DCSiteID,sku: record.SKU});
+                });
+            });
+        }
+
         function getOpportunityDetails(opportunityId){
             $http.get('/opportunities/?opportunityId=' + opportunityId).success(function(response) {
 
@@ -144,6 +156,8 @@ angular.module('datacollectors').controller('FileUploadController',
         getEnvironment();
 
         initOpportunityIdList();
+
+        initDcList();
 
         var selectedCategory;
         var selectedDataVersion;
@@ -246,18 +260,18 @@ angular.module('datacollectors').controller('FileUploadController',
             ];
 
         $scope.dcNames = [
-            {
-                name: "Newark"
-            },
-            {
-                name: "Meriden"
-            },
-            {
-                name: "Chicago"
-            },
-            {
-                name: "Ottawa"
-            }
+            //{
+            //    name: "Newark"
+            //},
+            //{
+            //    name: "Meriden"
+            //},
+            //{
+            //    name: "Chicago"
+            //},
+            //{
+            //    name: "Ottawa"
+            //}
         ];
 
         $scope.opportunityIds = [
@@ -278,6 +292,14 @@ angular.module('datacollectors').controller('FileUploadController',
 
                 if(newValue[0]){
                     $scope.$parent.selectedName = newValue[0].name;
+
+                    var result = $scope.dcNames.filter(function( obj ) {
+                        $scope.dcCountry=newValue[0].country;
+                        $scope.dcSiteCode = newValue[0].siteCode;
+                        $scope.dcSku = newValue[0].sku;
+                        return obj.DataCenterName == newValue[0];
+
+                    });
                 }
 
             }
