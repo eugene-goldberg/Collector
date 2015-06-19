@@ -1,0 +1,204 @@
+<div ng-controller="DcUpdateController" class="container form-group">
+    <br>
+    <tabset>
+        <tab ng-repeat="workspace in workspaces"
+             heading="{{selectedName || 'DC'}}"
+             active=workspace.active>
+
+            <div ng-controller="DcUpdateController">
+                <!--<h4>selectedDcName:  {{selectedDcName[0].name}}</h4>-->
+                <form name="form" ng-submit="postUpdate()">
+                    <div class="form-group">
+                        <br>
+                        <fieldset>
+                            <legend><strong>Playcards data collection</strong> </legend>
+                            <div class="col-sm-3">
+                                <label for="dcName">Data Center Name</label>
+                                <div id="dcName">
+                                    <isteven-multi-select
+                                            input-model="dcNames"
+                                            output-model="selectedDcName"
+                                            button-label="icon name"
+                                            item-label="icon name maker"
+                                            tick-property="ticked"
+                                            selection-mode="single"
+                                            >
+                                    </isteven-multi-select>
+                                </div>
+
+                                <label for="dcCountry">Data Center Country</label>
+                                <input id="dcCountry" name="dcCountry" type="text" class="form-control" ng-model="dcCountry"/>
+
+                                <label for="dcSiteCode">Data Center Site Code</label>
+                                <input id="dcSiteCode" name="dcSiteCode" type="text" class="form-control" placeholder="data center site code" required ng-model="dcSiteCode"/>
+                                <label for="dcSku">Tier</label>
+                                <input id="dcSku" name="dcSku" type="text" placeholder="data center sku" class="form-control" ng-model="dcSku"/>
+                                <label for="bu">CSC Business Unit</label>
+                                <div id="bu">
+                                    <isteven-multi-select
+                                            input-model="buList"
+                                            output-model="selectedBu"
+                                            button-label="icon name"
+                                            item-label="icon name maker"
+                                            tick-property="ticked"
+                                            selection-mode="single"
+                                            >
+                                    </isteven-multi-select>
+                                </div>
+                                <label for="dcManager">DC Manager</label>
+                                <input id="dcManager" name="dcManager" type="text" placeholder="data cenetr manager" class="form-control" ng-model="dcManager"/>
+                                <label for="dcRegionalManager">Regional Manager</label>
+                                <input id="dcRegionalManager" name="dcRegionalManager" type="text" placeholder="regional manager" class="form-control" required ng-model="dcRegionalManager"/>
+                            </div>
+
+
+                            <div class="col-sm-3">
+                                <label for="consolidationStrategy">Consolidation Strategy</label>
+                                <input id="consolidationStrategy" name="consolidationStrategy" type="text" placeholder="consolidation strategy" class="form-control" required ng-model="consolidationStrategy"/>
+                                <label for="kwRequired_2016">Annual Direct/Lease Cost</label>
+                                <input id="kwRequired_2016" name="kwRequired_2016" type="text" placeholder="" class="form-control"  ng-model="kwRequired_2016"/>
+                                <label for="kwRequired_2017">Key Accounts</label>
+                                <input id="kwRequired_2017" name="kwRequired_2017" type="text" placeholder="" class="form-control"  ng-model="kwRequired_2017"/>
+                                <label for="kwRequired_2018">Total Space ft</label>
+                                <input id="kwRequired_2018" name="kwRequired_2018" type="text" placeholder="" class="form-control" ng-model="kwRequired_2018"/>
+                                <label for="kwRequired_2019">% Utilization</label>
+                                <input id="kwRequired_2019" name="kwRequired_2019" type="text" placeholder="" class="form-control"  ng-model="kwRequired_2019"/>
+                                <label for="tenancyType">Tenancy Type</label>
+                                <div id="tenancyType">
+                                    <isteven-multi-select
+                                            input-model="tenancyTypes"
+                                            output-model="selectedTenancyTypes"
+                                            button-label="icon name"
+                                            item-label="icon name maker"
+                                            tick-property="ticked"
+                                            selection-mode="multi"
+                                            >
+                                    </isteven-multi-select>
+                                </div>
+                                <label for="contractType">Contract Type</label>
+                                <div id="contractType">
+                                    <isteven-multi-select
+                                            input-model="contractTypes"
+                                            output-model="selectedContractTypes"
+                                            button-label="icon name"
+                                            item-label="icon name maker"
+                                            tick-property="ticked"
+                                            selection-mode="multi"
+                                            >
+                                    </isteven-multi-select>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-sm-3">
+                                <label for="kwRequired_2022">Contract End Date</label>
+                                <input id="kwRequired_2022" name="kwRequired_2022" type="text" placeholder="" class="form-control"  ng-model="kwRequired_2022"/>
+                                <label for="kwRequired_2023">Build Date</label>
+                                <input id="kwRequired_2023" name="kwRequired_2023" type="text" placeholder="" class="form-control"  ng-model="kwRequired_2023"/>
+                                <label for="kwRequired_2024">Annual Tax Bill</label>
+                                <input id="kwRequired_2024" name="kwRequired_2024" type="text" placeholder="" class="form-control"  ng-model="kwRequired_2024"/>
+                                <label for="kwRequired_2025">kW L / Util</label>
+                                <input id="kwRequired_2025" name="kwRequired_2025" type="text" placeholder="" class="form-control"  ng-model="kwRequired_2025"/>
+                                <label for="annualCost">Annual Cost</label>
+                                <input id="annualCost" name="annualCost" type="text" placeholder="" class="form-control"  ng-model="kwRequired_2025"/>
+                                <label for="sqFtRaised">Fq Ft Raised</label>
+                                <input id="sqFtRaised" name="sqFtRaised" type="text" placeholder="" class="form-control"  ng-model="kwRequired_2025"/>
+                                <label for="leaseEnds">Lease Ends</label>
+                                <input id="leaseEnds" name="leaseEnds" type="text" placeholder="" class="form-control"  ng-model="kwRequired_2025"/>
+                            </div>
+
+
+                            <div class="col-sm-3">
+                                <label for="$kWL">$ / kWL</label>
+                                <input id="$kWL" name="$kWL" type="text" placeholder="" class="form-control"  ng-model="kwRequired_2025"/>
+                                <label for="cscSecurityLead">CSC Security Lead</label>
+                                <input id="cscSecurityLead" name="cscSecurityLead" type="text" placeholder="" class="form-control"  ng-model="kwRequired_2025"/>
+
+                            <label for="networkNodeType">Network Node Type</label>
+                            <div id="networkNodeType">
+                                <isteven-multi-select
+                                        input-model="networkNodeTypes"
+                                        output-model="selectedNetworkNodeTypes"
+                                        button-label="icon name"
+                                        item-label="icon name maker"
+                                        tick-property="ticked"
+                                        selection-mode="multi"
+                                        >
+                                </isteven-multi-select>
+                            </div>
+
+                                <label for="strategicNature">Strategic Nature</label>
+                                <div id="strategicNature">
+                                    <isteven-multi-select
+                                            input-model="strategicNatures"
+                                            output-model="selectedStrategicNatures"
+                                            button-label="icon name"
+                                            item-label="icon name maker"
+                                            tick-property="ticked"
+                                            selection-mode="multi"
+                                            >
+                                    </isteven-multi-select>
+                                </div>
+                                <label for="datacenterType">Datacenter Type</label>
+                                <div id="datacenterType">
+                                    <isteven-multi-select
+                                            input-model="datacenterTypes"
+                                            output-model="selectedDatacenterTypes"
+                                            button-label="icon name"
+                                            item-label="icon name maker"
+                                            tick-property="ticked"
+                                            selection-mode="multi"
+                                            >
+                                    </isteven-multi-select>
+                                </div>
+                                <label for="certifications">Certifications</label>
+                                <div id="certifications">
+                                    <isteven-multi-select
+                                            input-model="certifications"
+                                            output-model="selectedCertifications"
+                                            button-label="icon name"
+                                            item-label="icon name maker"
+                                            tick-property="ticked"
+                                            selection-mode="multi"
+                                            >
+                                    </isteven-multi-select>
+                                </div>
+                                <label for="overallStrategy">Overall Strategy</label>
+                                <div id="overallStrategy">
+                                    <isteven-multi-select
+                                            input-model="overallStrategies"
+                                            output-model="selectedOverallStrategies"
+                                            button-label="icon name"
+                                            item-label="icon name maker"
+                                            tick-property="ticked"
+                                            selection-mode="multi"
+                                            >
+                                    </isteven-multi-select>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-3">
+
+                                <input type="submit" id="submit" value="Submit" />
+                            </div>
+                        </fieldset>
+
+                    </div>
+                </form>
+            </div>
+        </tab>
+        <tab select="addWorkspace()">
+            <tab-heading> Add Data Center
+                <i class="icon-plus-sign"></i>
+            </tab-heading>
+        </tab>
+        <tab select="removeWorkspace()">
+            <tab-heading> Remove Selected Data Center
+                <i class="icon-plus-sign"></i>
+            </tab-heading>
+        </tab>
+    </tabset>
+    <br/>
+</div>

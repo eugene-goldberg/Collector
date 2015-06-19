@@ -9,9 +9,9 @@ angular.module('datacollectors').config(['$stateProvider',
 			url: '/datacollectors',
 				templateUrl: 'modules/datacollectors/views/show-datacollector.client.view.html'
 		}).
-			state('dataexplorer', {
-				url: '/dataexplorer',
-				templateUrl: 'modules/datacollectors/views/dataexplorer.client.view.html'
+			state('dcupdate', {
+				url: '/dcupdate',
+				templateUrl: 'modules/datacollectors/views/dcupdate.client.view.html'
 			}).
 			state('charts', {
 				url: '/charts',
