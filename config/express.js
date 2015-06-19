@@ -168,6 +168,20 @@ module.exports = function(db) {
                                 opportunityDetail.OpportunityName = doc['OpportunityName'];
                                 opportunityDetail.AccountName = doc['AccountName'];
 
+								opportunityDetail.FY16 = doc['FY16'];
+								opportunityDetail.FY17 = doc['FY17'];
+								opportunityDetail.FY18 = doc['FY18'];
+								opportunityDetail.FY19 = doc['FY19'];
+								opportunityDetail.FY20 = doc['FY20'];
+								opportunityDetail.FY21 = doc['FY21'];
+								opportunityDetail.FY22 = doc['FY22'];
+								opportunityDetail.FY23 = doc['FY23'];
+								opportunityDetail.FY24 = doc['FY24'];
+								opportunityDetail.FY25 = doc['FY25'];
+                                opportunityDetail.DCCountry = doc['DCCountry'];
+                                opportunityDetail.DCSiteCode = doc['DCSiteCode'];
+                                opportunityDetail.DCSKU = doc['DCSKU'];
+
                                 res.json(opportunityDetail);
                                 assert.equal(null, err);
                             }
@@ -265,7 +279,10 @@ module.exports = function(db) {
                 console.log('req.body.kwRequired_2016}', req.body.kwRequired_2016);
                 var collection = db.collection('DC_Facilities');
                 collection.update(
-                    {CSCOpportunityID:  req.body.opportunityId},
+                    {
+                        Subject: "salesforce-power",
+                        CSCOpportunityID:  req.body.opportunityId
+                    },
                     {$set:
                     {FY16: req.body.kwRequired_2016,
                         FY17: req.body.kwRequired_2017,
@@ -276,7 +293,10 @@ module.exports = function(db) {
                         FY22: req.body.kwRequired_2022,
                         FY23: req.body.kwRequired_2023,
                         FY24: req.body.kwRequired_2024,
-                        FY25: req.body.kwRequired_2025
+                        FY25: req.body.kwRequired_2025,
+                        DCCountry: req.body.dcCountry,
+                        DCSiteCode: req.body.dcSiteCode,
+                        DCSKU: req.body.dcSku
                     }
                     },
                     function(err, result){

@@ -144,6 +144,19 @@ angular.module('datacollectors').controller('FileUploadController',
                 }
                     $scope.opportunityName = response.OpportunityName;
                     $scope.accountName = response.AccountName;
+                    $scope.kwRequired_2016 = response.FY16;
+                    $scope.kwRequired_2017 = response.FY17;
+                    $scope.kwRequired_2018 = response.FY18;
+                    $scope.kwRequired_2019 = response.FY19;
+                    $scope.kwRequired_2020 = response.FY20;
+                    $scope.kwRequired_2021 = response.FY21;
+                    $scope.kwRequired_2022 = response.FY22;
+                    $scope.kwRequired_2023 = response.FY23;
+                    $scope.kwRequired_2024 = response.FY24;
+                    $scope.kwRequired_2025 = response.FY25;
+                    $scope.dcCountry = response.DCCountry;
+                    $scope.dcSiteCode = response.DCSiteCode;
+                    $scope.dcSku = response.DCSKU;
 
 
                 console.log('response: ' + response);
