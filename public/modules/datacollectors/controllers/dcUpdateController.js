@@ -236,6 +236,24 @@ angular.module('datacollectors').controller('DcUpdateController',
                 //}
             ];
 
+            $scope.dcRegions = [
+                {
+                    name: "Americas"
+                },
+                {
+                    name: "EMEA"
+                },
+                {
+                    name: "APAC"
+                },
+                {
+                    name: "Nordics"
+                },
+                {
+                    name: "UK & I"
+                }
+            ];
+
             $scope.overallStrategies = [
                 {
                     name: "Close"
@@ -356,28 +374,40 @@ angular.module('datacollectors').controller('DcUpdateController',
             $scope.selectedYear="";
 
             $scope.postUpdate = function(){
-                console.log('kwRequired  ' + $scope.kwRequired);
+                console.log('playcard update  ');
                 var postData = {
-                    opportunityId: $scope.selectedOpportunity[0].name,
-                    opportunityName: $scope.opportunityName,
-                    accountName: $scope.accountName,
-                    dcName: $scope.$parent.selectedName,
-                    dcCountry: $scope.dcCountry,
-                    dcSiteCode: $scope.dcSiteCode,
-                    dcSku: $scope.dcSku,
-                    kwRequired_2016: $scope.kwRequired_2016,
-                    kwRequired_2017: $scope.kwRequired_2017,
-                    kwRequired_2018: $scope.kwRequired_2018,
-                    kwRequired_2019: $scope.kwRequired_2019,
-                    kwRequired_2020: $scope.kwRequired_2020,
-                    kwRequired_2021: $scope.kwRequired_2021,
-                    kwRequired_2022: $scope.kwRequired_2022,
-                    kwRequired_2023: $scope.kwRequired_2023,
-                    kwRequired_2024: $scope.kwRequired_2024,
-                    kwRequired_2025: $scope.kwRequired_2025
+                    DataCenterName: $scope.selectedDcName,
+                    StrategicNaturesOfDc: $scope.selectedStrategicNatures,
+                    AnnualDirectLeaseCost: $scope.annualDirectLeaseCost,
+                    DataCenterTypes: $scope.datacenterTypes,
+                    TenancyTypes: $scope.selectedTenancyTypes,
+                    NetworkNodeTypes: $scope.selectedNetworkNodeTypes,
+                    KeyAccounts: $scope.keyAccounts,
+                    SqFtTotal: $scope.totalSpace,
+                    SqFtRaised: $scope.sqFtRaised,
+                    PctUtilization: $scope.pctUtilization,
+                    DcTier: $scope.dcSku,
+                    ContractTypes: $scope.selectedContractTypes,
+                    LeaseEnds: $scope.leaseEnds,
+                    KwLeasedUtilized: $scope.kwLeasedUtilized,
+                    AnnualCost: $scope.annualCost,
+                    $kWL: $scope.$kWL,
+                    Certifications: $scope.selectedCertifications,
+                    DcManager:  $scope.dcManager,
+                    DcRegeonalHead: $scope.dcRegionalManager,
+                    CscSecurityLead:    $scope.cscSecurityLead,
+                    ConsolidationStrategy:  $scope.consolidationStrategy,
+                    OverallStrategies:    $scope.selectedOverallStrategies,
+                    Region: $scope.selectedDcRegion,
+                    BuildDate:  $scope.buildDate,
+                    Vendor: $scope.vendor,
+                    ValueOfUtilization: $scope.valueOfUtilization,
+                    DatacenterAddress:  $scope.dcAddress,
+                    DcProvider: $scope.dcProvider,
+                    DcProviderContact:  $scope.dcProviderContact
                 };
                 var json = angular.toJson(postData);
-                $http.post('/salesforce_update', json);
+                $http.post('/playcard_update', json);
             };
 
             /////////////////////// TabController's functionality:

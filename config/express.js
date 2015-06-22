@@ -93,6 +93,15 @@ module.exports = function(db) {
         })
     }));
 
+    function translateToString(input){
+        var result="";
+        input.forEach(function(item){
+            result = result.concat(',').concat(item.name);
+        });
+        return result.slice(1);
+    }
+
+
 	app.get('/mongodata', function(req, res){
 		console.log('Request Successful');
 		console.log('_parsedUrl.query:  ' + req._parsedUrl.query);
@@ -309,6 +318,72 @@ module.exports = function(db) {
                 });
             }
         });
+	});
+
+	app.post('/playcard_update', function(req, res){
+		console.log('Playcard update Request Received');
+		console.log('request body:  ' + req.body);
+
+		MongoClient.connect(url, function (err, db) {
+			if (err) {
+				console.log('Unable to connect to the mongoDB server. Error:', err);
+			} else {
+				console.log('Connection established to', url);
+				console.log('req.body.kwRequired_2016}', req.body.kwRequired_2016);
+				var collection = db.collection('PlaycardData');
+                var translatedValue = translateToString(req.body.StrategicNaturesOfDc);
+                var p = translatedValue;
+
+				collection.update(
+					{
+                        DataCenterName: req.body.DataCenterName
+					},
+					{$set:
+					{
+                        StrategicNaturesOfDc: translateToString(req.body.StrategicNaturesOfDc),
+                        AnnualDirectLeaseCost: req.body.AnnualDirectLeaseCost,
+                        DataCenterTypes: translateToString(req.body.DataCenterTypes),
+                        TenancyTypes: translateToString(req.body.TenancyTypes),
+                        NetworkNodeTypes: translateToString(req.body.NetworkNodeTypes),
+                        KeyAccounts: req.body.KeyAccounts,
+                        SqFtTotal: req.body.SqFtTotal,
+                        SqFtRaised: req.body.SqFtRaised,
+                        PctUtilization: req.body.PctUtilization,
+                        DcTier: req.body.DcTier,
+                        ContractTypes: translateToString(req.body.ContractTypes),
+                        LeaseEnds: req.body.LeaseEnds,
+                        KwLeasedUtilized: req.body.KwLeasedUtilized,
+
+
+                        AnnualCost: req.body.AnnualCost,
+                        KWL: req.body.$kWL,
+                        Certifications: translateToString(req.body.Certifications),
+                        DcManager: req.body.DcManager,
+                        DcRegeonalHead: req.body.DcRegeonalHead,
+                        CscSecurityLead: req.body.CscSecurityLead,
+                        ConsolidationStrategy: req.body.ConsolidationStrategy,
+                        OverallStrategies: translateToString(req.body.OverallStrategies),
+                        Region: translateToString(req.body.Region),
+                        BuildDate: req.body.BuildDate,
+                        Vendor: req.body.Vendor,
+                        ValueOfUtilization: req.body.ValueOfUtilization,
+                        DatacenterAddress: req.body.DatacenterAddress,
+
+                        DcProvider: req.body.DcProvider,
+                        DcProviderContact: req.body.DcProviderContact
+					}
+					},
+                    {upsert: true},
+					function(err, result){
+						if(err){
+							console.log('err:  ' + err);
+						}
+						else{
+							console.log('update result:  ' + result);
+						}
+					});
+			}
+		});
 	});
 
 

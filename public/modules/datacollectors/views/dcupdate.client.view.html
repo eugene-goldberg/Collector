@@ -29,8 +29,23 @@
                                 <label for="dcCountry">Data Center Country</label>
                                 <input id="dcCountry" name="dcCountry" type="text" class="form-control" ng-model="dcCountry"/>
 
+                                <label for="dcRegion">Data Center Region</label>
+                                <div id="dcRegion">
+                                    <isteven-multi-select
+                                            input-model="dcRegions"
+                                            output-model="selectedDcRegion"
+                                            button-label="icon name"
+                                            item-label="icon name maker"
+                                            tick-property="ticked"
+                                            selection-mode="single"
+                                            >
+                                    </isteven-multi-select>
+                                </div>
+
                                 <label for="dcSiteCode">Data Center Site Code</label>
                                 <input id="dcSiteCode" name="dcSiteCode" type="text" class="form-control" placeholder="data center site code" required ng-model="dcSiteCode"/>
+                                <label for="dcAddress">Data Center Address</label>
+                                <input id="dcAddress" name="dcAddress" type="text" class="form-control" placeholder="data center address" required ng-model="dcAddress"/>
                                 <label for="dcSku">Tier</label>
                                 <input id="dcSku" name="dcSku" type="text" placeholder="data center sku" class="form-control" ng-model="dcSku"/>
                                 <label for="bu">CSC Business Unit</label>
@@ -55,14 +70,14 @@
                             <div class="col-sm-3">
                                 <label for="consolidationStrategy">Consolidation Strategy</label>
                                 <input id="consolidationStrategy" name="consolidationStrategy" type="text" placeholder="consolidation strategy" class="form-control" required ng-model="consolidationStrategy"/>
-                                <label for="kwRequired_2016">Annual Direct/Lease Cost</label>
-                                <input id="kwRequired_2016" name="kwRequired_2016" type="text" placeholder="" class="form-control"  ng-model="kwRequired_2016"/>
-                                <label for="kwRequired_2017">Key Accounts</label>
-                                <input id="kwRequired_2017" name="kwRequired_2017" type="text" placeholder="" class="form-control"  ng-model="kwRequired_2017"/>
-                                <label for="kwRequired_2018">Total Space ft</label>
-                                <input id="kwRequired_2018" name="kwRequired_2018" type="text" placeholder="" class="form-control" ng-model="kwRequired_2018"/>
-                                <label for="kwRequired_2019">% Utilization</label>
-                                <input id="kwRequired_2019" name="kwRequired_2019" type="text" placeholder="" class="form-control"  ng-model="kwRequired_2019"/>
+                                <label for="annualDirectLeaseCost">Annual Direct/Lease Cost</label>
+                                <input id="annualDirectLeaseCost" name="annualDirectLeaseCost" type="text" placeholder="annual cost" class="form-control"  ng-model="annualDirectLeaseCost"/>
+                                <label for="keyAccounts">Key Accounts</label>
+                                <input id="keyAccounts" name="keyAccounts" type="text" placeholder="key accounts" class="form-control"  ng-model="keyAccounts"/>
+                                <label for="totalSpace">Total Space ft</label>
+                                <input id="totalSpace" name="totalSpace" type="text" placeholder="total space" class="form-control" ng-model="totalSpace"/>
+                                <label for="pctUtilization">% Utilization</label>
+                                <input id="pctUtilization" name="pctUtilization" type="text" placeholder="% utilization" class="form-control"  ng-model="pctUtilization"/>
                                 <label for="tenancyType">Tenancy Type</label>
                                 <div id="tenancyType">
                                     <isteven-multi-select
@@ -87,33 +102,42 @@
                                             >
                                     </isteven-multi-select>
                                 </div>
+                                <label for="vendor">Vendor</label>
+                                <input id="vendor" name="vendor" type="text" placeholder="vendor" class="form-control"  ng-model="vendor"/>
+                                <label for="valueOfUtilization">Value of Utilization</label>
+                                <input id="valueOfUtilization" name="valueOfUtilization" type="text" placeholder="$ of util..." class="form-control"  ng-model="valueOfUtilization"/>
                             </div>
 
 
 
                             <div class="col-sm-3">
-                                <label for="kwRequired_2022">Contract End Date</label>
-                                <input id="kwRequired_2022" name="kwRequired_2022" type="text" placeholder="" class="form-control"  ng-model="kwRequired_2022"/>
-                                <label for="kwRequired_2023">Build Date</label>
-                                <input id="kwRequired_2023" name="kwRequired_2023" type="text" placeholder="" class="form-control"  ng-model="kwRequired_2023"/>
-                                <label for="kwRequired_2024">Annual Tax Bill</label>
-                                <input id="kwRequired_2024" name="kwRequired_2024" type="text" placeholder="" class="form-control"  ng-model="kwRequired_2024"/>
-                                <label for="kwRequired_2025">kW L / Util</label>
-                                <input id="kwRequired_2025" name="kwRequired_2025" type="text" placeholder="" class="form-control"  ng-model="kwRequired_2025"/>
+                                <label for="contractEndDate">Contract End Date</label>
+                                <input id="contractEndDate" name="contractEndDate" type="text" placeholder="mm/dd/yyyy" class="form-control"  ng-model="contractEndDate"/>
+                                <label for="buildDate">Build Date</label>
+                                <input id="buildDate" name="buildDate" type="text" placeholder="mm/dd/yyyy" class="form-control"  ng-model="buildDate"/>
+                                <label for="annualTaxBill">Annual Tax Bill</label>
+                                <input id="annualTaxBill" name="annualTaxBill" type="text" placeholder="tax bill" class="form-control"  ng-model="annualTaxBill"/>
+                                <label for="kwLeasedUtilized">kW L / Util</label>
+                                <input id="kwLeasedUtilized" name="kwLeasedUtilized" type="text" placeholder="kW leased/utilized" class="form-control"  ng-model="kwLeasedUtilized"/>
                                 <label for="annualCost">Annual Cost</label>
-                                <input id="annualCost" name="annualCost" type="text" placeholder="" class="form-control"  ng-model="kwRequired_2025"/>
+                                <input id="annualCost" name="annualCost" type="text" placeholder="annual cost" class="form-control"  ng-model="annualCost"/>
                                 <label for="sqFtRaised">Fq Ft Raised</label>
-                                <input id="sqFtRaised" name="sqFtRaised" type="text" placeholder="" class="form-control"  ng-model="kwRequired_2025"/>
+                                <input id="sqFtRaised" name="sqFtRaised" type="text" placeholder="sq Ft raised" class="form-control"  ng-model="sqFtRaised"/>
                                 <label for="leaseEnds">Lease Ends</label>
-                                <input id="leaseEnds" name="leaseEnds" type="text" placeholder="" class="form-control"  ng-model="kwRequired_2025"/>
+                                <input id="leaseEnds" name="leaseEnds" type="text" placeholder="mm/dd/yyyy" class="form-control"  ng-model="leaseEnds"/>
+
+                                <label for="dcProvider">DC Provider</label>
+                                <input id="dcProvider" name="dcProvider" type="text" placeholder="dc provider" class="form-control"  ng-model="dcProvider"/>
+                                <label for="dcProviderContact">DC Provider Contact</label>
+                                <input id="dcProviderContact" name="dcProviderContact" type="text" placeholder="provider contact" class="form-control"  ng-model="dcProviderContact"/>
                             </div>
 
 
                             <div class="col-sm-3">
                                 <label for="$kWL">$ / kWL</label>
-                                <input id="$kWL" name="$kWL" type="text" placeholder="" class="form-control"  ng-model="kwRequired_2025"/>
+                                <input id="$kWL" name="$kWL" type="text" placeholder="$ / kW" class="form-control"  ng-model="$kWL"/>
                                 <label for="cscSecurityLead">CSC Security Lead</label>
-                                <input id="cscSecurityLead" name="cscSecurityLead" type="text" placeholder="" class="form-control"  ng-model="kwRequired_2025"/>
+                                <input id="cscSecurityLead" name="cscSecurityLead" type="text" placeholder="csc sec. lead" class="form-control"  ng-model="cscSecurityLead"/>
 
                             <label for="networkNodeType">Network Node Type</label>
                             <div id="networkNodeType">
@@ -176,10 +200,15 @@
                                             >
                                     </isteven-multi-select>
                                 </div>
-                            </div>
+                            <!--</div>-->
 
 
-                            <div class="col-sm-3">
+                            <!--<div class="col-sm-3">-->
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+
 
                                 <input type="submit" id="submit" value="Submit" />
                             </div>
