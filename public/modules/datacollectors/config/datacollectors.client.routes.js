@@ -13,9 +13,9 @@ angular.module('datacollectors').config(['$stateProvider',
 				url: '/dcupdate',
 				templateUrl: 'modules/datacollectors/views/dcupdate.client.view.html'
 			}).
-			state('charts', {
-				url: '/charts',
-				templateUrl: 'modules/datacollectors/views/charts.client.view.html'
+			state('playcard', {
+				url: '/playcard',
+				templateUrl: 'modules/datacollectors/views/playcard.client.view.html'
 			}).
 		state('createDatacollector', {
 			url: '/datacollectors/create',

@@ -340,6 +340,7 @@ module.exports = function(db) {
 					},
 					{$set:
 					{
+                        DataCenterName: translateToString(req.body.DataCenterName),
                         StrategicNaturesOfDc: translateToString(req.body.StrategicNaturesOfDc),
                         AnnualDirectLeaseCost: req.body.AnnualDirectLeaseCost,
                         DataCenterTypes: translateToString(req.body.DataCenterTypes),
@@ -359,7 +360,7 @@ module.exports = function(db) {
                         KWL: req.body.$kWL,
                         Certifications: translateToString(req.body.Certifications),
                         DcManager: req.body.DcManager,
-                        DcRegeonalHead: req.body.DcRegeonalHead,
+                        DcRegionalHead: req.body.DcRegeonalHead,
                         CscSecurityLead: req.body.CscSecurityLead,
                         ConsolidationStrategy: req.body.ConsolidationStrategy,
                         OverallStrategies: translateToString(req.body.OverallStrategies),
