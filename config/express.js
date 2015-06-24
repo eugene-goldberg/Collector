@@ -336,6 +336,7 @@ module.exports = function(db) {
                     }
                         else{
                         console.log('update result:  ' + result);
+                        res.send(201);
                     }
                 });
             }
@@ -352,7 +353,7 @@ module.exports = function(db) {
 			} else {
 				console.log('Connection established to', url);
 				console.log('req.body.kwRequired_2016}', req.body.kwRequired_2016);
-				var collection = db.collection('PlaycardData');
+				var collection = db.collection('PlaycardsData');
                 var translatedValue = translateToString(req.body.StrategicNaturesOfDc);
                 var p = translatedValue;
 
@@ -403,6 +404,7 @@ module.exports = function(db) {
 						}
 						else{
 							console.log('update result:  ' + result);
+                            res.send(201);
 						}
 					});
 			}

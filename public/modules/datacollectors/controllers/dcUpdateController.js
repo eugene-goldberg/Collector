@@ -1,131 +1,14 @@
 'use strict';
 
-// FileUploadController controller
 angular.module('datacollectors').controller('DcUpdateController',
     ['$scope', '$http', '$stateParams', '$location',
         'Authentication', 'Datacollectors', 'FileUploader','$rootScope',
         function($scope, $http, $stateParams, $location, Authentication,
                  Datacollectors, FileUploader,$rootScope) {
-            $scope.authentication = Authentication;
 
-            $scope.uploadUrl = '';
-
-            var url = 'http://dctool-lnx.cloudapp.net:3001/api/files';
-
-            var uploader = $scope.uploader = new FileUploader({
-            });
-
-            console.log('This is FileUploadController');
-
-            function getEnvironment (){
-
-                $http.get('/environment').success(function(response) {
-
-                    if(response.environment === 'test'){
-                        url = 'http://dctool-lnx.cloudapp.net:3001/api/files';
-                        initUploader(url);
-
-                    }
-                    if(response.environment === 'development'){
-                        url = 'http://localhost:3000/api/files';
-
-                        initUploader(url);
-
-                    }
-                    //console.log('Current Environment is:  ' + $scope.currentEnvironment
-                    //+ '  so the uploadUrl should be:  ' + url);
-                });
-            }
-
-            function initUploader(url){
-                uploader.url = url;
-
-                uploader.filters.push({
-                    name: 'customFilter',
-                    fn: function(item /*{File|FileLikeObject}*/, options) {
-                        return this.queue.length < 10;
-                    }
-                });
-
-                uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {
-                    //console.info('onWhenAddingFileFailed', item, filter, options);
-                };
-                uploader.onAfterAddingFile = function(fileItem) {
-                    //console.info('onAfterAddingFile', fileItem);
-                    this.url = url;
-                    console.log('uploader.url is:  ' + url);
-                };
-                uploader.onAfterAddingAll = function(addedFileItems) {
-                    //console.info('onAfterAddingAll', addedFileItems);
-                };
-
-                uploader.onBeforeUploadItem = function(item) {
-                    angular.forEach( $scope.outputCategories, function( value, key ) {
-                        selectedCategory = value.name;
-                        item.formData.push({subjectCategory: selectedCategory});
-                    });
-                    angular.forEach( $scope.outputDataVersions, function( value, key ) {
-                        selectedDataVersion = value.name;
-                        item.formData.push({dataVersion: selectedDataVersion});
-                    });
-
-                    item.formData.push({
-                        tabName: $scope.workspace.name,
-                        originalDocumentName: $scope.originalDocumentName,
-                        subject:    $scope.subject,
-                        documentAuthor: $scope.documentAuthor,
-                        dateDocumentProduced: $scope.dateDocumentProduced,
-                        dateDocumentReceived: $scope.dateDocumentReceived,
-                        documentSubmitter: $scope.documentSubmitter,
-                        documentReviewer:   $scope.documentReviewer,
-                        originalSource: $scope.originalSource,
-                        dataFields: $scope.dataFields
-                    });
-                    console.info('onBeforeUploadItem', item);
-                    console.info('contentType:  ', $scope.contentType);
-                };
-
-                uploader.onProgressItem = function(fileItem, progress) {
-                    //console.info('onProgressItem', fileItem, progress);
-                };
-                uploader.onProgressAll = function(progress) {
-                    //console.info('onProgressAll', progress);
-                };
-                uploader.onSuccessItem = function(fileItem, response, status, headers) {
-                    //console.info('onSuccessItem', fileItem, response, status, headers);
-                };
-                uploader.onErrorItem = function(fileItem, response, status, headers) {
-                    // console.info('onErrorItem', fileItem, response, status, headers);
-                    alert('UPLOAD ERROR!!!')
-                };
-                uploader.onCancelItem = function(fileItem, response, status, headers) {
-                    //console.info('onCancelItem', fileItem, response, status, headers);
-                };
-                uploader.onCompleteItem = function(fileItem, response, status, headers) {
-                    //console.info('onCompleteItem', fileItem, response, status, headers);
-                };
-                uploader.onCompleteAll = function() {
-                    console.info('onCompleteAll');
-
-                };
-            }
-
-            function initOpportunityIdList(){
-                //for(var prop in $rootScope){
-                //    console.log('root scope property name  : ' + prop);
-                //}
-                $http.get('/opportunity_ids').success(function(response) {
-                    console.log('found ' + response.length + ' records for salesforce-power');
-                    response.forEach(function(opportunity){
-                        $scope.opportunityIds.push(opportunity);
-                    });
-                });
-            }
+            console.log('This is dcUpdateController');
 
             function initDcList(){
-                //for(var prop in $rootScope){
-                //    console.log('root scope property name  : ' + prop);
-                //}
                 $http.get('/mongodata/?collectionName=DC_Facilities&subject=datacenter-listing').success(function(response) {
                     console.log('found ' + response.length + ' records for datacenter-listing');
                     response.forEach(function(record){
@@ -134,46 +17,7 @@ angular.module('datacollectors').controller('DcUpdateController',
                 });
             }
 
-            function getOpportunityDetails(opportunityId){
-                $http.get('/opportunities/?opportunityId=' + opportunityId).success(function(response) {
-
-
-                    for(var prop in response){
-                        console.log('response prop: ' + prop);
-                        console.log('response prop value: ' + response[prop]);
-                    }
-                    $scope.opportunityName = response.OpportunityName;
-                    $scope.accountName = response.AccountName;
-                    $scope.kwRequired_2016 = response.FY16;
-                    $scope.kwRequired_2017 = response.FY17;
-                    $scope.kwRequired_2018 = response.FY18;
-                    $scope.kwRequired_2019 = response.FY19;
-                    $scope.kwRequired_2020 = response.FY20;
-                    $scope.kwRequired_2021 = response.FY21;
-                    $scope.kwRequired_2022 = response.FY22;
-                    $scope.kwRequired_2023 = response.FY23;
-                    $scope.kwRequired_2024 = response.FY24;
-                    $scope.kwRequired_2025 = response.FY25;
-                    $scope.dcCountry = response.DCCountry;
-                    $scope.dcSiteCode = response.DCSiteCode;
-                    $scope.dcSku = response.DCSKU;
-
-
-                    console.log('response: ' + response);
-                    console.log('opportunityName: ' + $scope.opportunityName);
-                    console.log('accountName: ' + $scope.accountName);
-
-                });
-            }
-
-            getEnvironment();
-
-            initOpportunityIdList();
-
             initDcList();
-
-            var selectedCategory;
-            var selectedDataVersion;
 
             $scope.buList = [
                 {
@@ -221,20 +65,7 @@ angular.module('datacollectors').controller('DcUpdateController',
                     { id: 2, name: 'dc-2' ,active:false  }
                 ];
 
-            $scope.dcNames = [
-                //{
-                //    name: "Newark"
-                //},
-                //{
-                //    name: "Meriden"
-                //},
-                //{
-                //    name: "Chicago"
-                //},
-                //{
-                //    name: "Ottawa"
-                //}
-            ];
+            $scope.dcNames = [];
 
             $scope.dcRegions = [
                 {
@@ -333,10 +164,6 @@ angular.module('datacollectors').controller('DcUpdateController',
 
             $scope.selectedDcName=[{}];
 
-            //$scope.selectedDcName = [{name: "dc", ticked: true}];
-
-
-
             $scope.$watch(function(scope) {return  $scope.selectedDcName },
                 function(newValue, oldValue) {
                     if(newValue[0]){
@@ -357,21 +184,6 @@ angular.module('datacollectors').controller('DcUpdateController',
 
                 }
             );
-
-            $scope.$watch(function(scope) {return  $scope.selectedOpportunity },
-                function(newValue, oldValue) {
-                    if(newValue){
-                        if(newValue[0]){
-                            console.log('new opportunity id:  ' + newValue[0].name);
-                            getOpportunityDetails(newValue[0].name);
-                        }
-                    }
-                }
-            );
-
-
-
-            $scope.selectedYear="";
 
             $scope.postUpdate = function(){
                 console.log('playcard update  ');
@@ -409,8 +221,6 @@ angular.module('datacollectors').controller('DcUpdateController',
                 var json = angular.toJson(postData);
                 $http.post('/playcard_update', json);
             };
-
-            /////////////////////// TabController's functionality:
 
             var setAllInactive = function() {
                 angular.forEach($scope.workspaces, function(workspace) {
@@ -455,9 +265,6 @@ angular.module('datacollectors').controller('DcUpdateController',
                     }
                 });
             };
-
-
-            ///////////////////////////
         }
     ]);
 

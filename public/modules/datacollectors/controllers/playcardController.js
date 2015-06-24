@@ -46,7 +46,6 @@ angular.module('datacollectors').controller('PlaycardController', ['$scope', '$h
                 url: '/playcards_data'
             }).success(function(data){
                 $scope.playcards = data;
-                console.log('Key accounts:  ' + $scope.playcards[0].KeyAccounts);
                 {
                     $scope.playcard.dcName = $scope.playcards[0].DataCenterName;
                     $scope.playcard.dcTier = $scope.playcards[0].DcTier;
