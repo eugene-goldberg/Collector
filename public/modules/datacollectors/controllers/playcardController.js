@@ -1,6 +1,5 @@
 'use strict';
 
-// Datacollectors controller
 angular.module('datacollectors').controller('PlaycardController', ['$scope', '$http', '$stateParams', '$location', 'Authentication', 'Datacollectors',
     function($scope, $http, $stateParams, $location, Authentication, Datacollectors) {
         $scope.authentication = Authentication;
@@ -34,10 +33,6 @@ angular.module('datacollectors').controller('PlaycardController', ['$scope', '$h
             sqFtRaised: "",
             pctUtilization: ""
         };
-
-        $scope.dataVersionValues = [
-
-        ];
 
         function getPlaycardsData(dcName) {
             $http({
@@ -96,46 +91,12 @@ angular.module('datacollectors').controller('PlaycardController', ['$scope', '$h
                         if(newValue[0].name) {
                             getPlaycardsData(newValue[0].name);
                         }
-                            //$scope.selectedDcName[0] = newValue[0];
-                            //$scope.selectedDcName.push({name: newValue[0].name});
-                            //console.log('selected dc name:  ' + $scope.selectedDcName[0].name);
-                            //$scope.playcards.filter(function (selectedPlaycard) {
-                            //    console.log('selectedPlaycard.DataCenterName  :  ' + selectedPlaycard.DataCenterName);
-                            //    $scope.playcard.dcName = selectedPlaycard.DataCenterName;
-                            //    $scope.playcard.dcTier = selectedPlaycard.DcTier;
-                            //    $scope.playcard.contractType = selectedPlaycard.ContractTypes;
-                            //    $scope.playcard.leaseEnds = selectedPlaycard.LeaseEnds;
-                            //    $scope.playcard.kWlUtil = selectedPlaycard.KwLeasedUtilized;
-                            //    $scope.playcard.annualCost = selectedPlaycard.AnnualCost;
-                            //    $scope.playcard.$kWl = selectedPlaycard.KWL;
-                            //    $scope.playcard.certifications = selectedPlaycard.Certifications;
-                            //    $scope.playcard.dcManager = selectedPlaycard.DcManager;
-                            //    $scope.playcard.dcSecurityLead = selectedPlaycard.CscSecurityLead;
-                            //    $scope.playcard.regionalHead = selectedPlaycard.DcRegeonalHead;
-                            //    $scope.playcard.buildDate = selectedPlaycard.BuildDate;
-                            //    $scope.playcard.vendor = selectedPlaycard.Vendor;
-                            //    $scope.playcard.valueOfUtilization = selectedPlaycard.ValueOfUtilization;
-                            //    $scope.playcard.dcAddress = selectedPlaycard.DatacenterAddress;
-                            //    $scope.playcard.dcProvider = selectedPlaycard.DcProvider;
-                            //    $scope.playcard.dcProviderContact = selectedPlaycard.DcProviderContact;
-                            //    $scope.playcard.annualDirectLeaseCost = selectedPlaycard.AnnualDirectLeaseCost;
-                            //
-                            //    $scope.playcard.consolidationStrategy = selectedPlaycard.ConsolidationStrategy.split(",");
-                            //    $scope.playcard.keyAccounts = selectedPlaycard.KeyAccounts.split(",");
-                            //
-                            //    $scope.playcard.sqFtTotal = selectedPlaycard.SqFtTotal;
-                            //    $scope.playcard.sqFtRaised = selectedPlaycard.SqFtRaised;
-                            //    $scope.playcard.pctUtilization = selectedPlaycard.PctUtilization;
-                            //
-                            //});
                     }
                 }
             }
         );
 
         initDcList();
-
-        //getPlaycardsData();
     }
 ]);
 

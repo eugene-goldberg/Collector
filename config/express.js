@@ -240,7 +240,7 @@ module.exports = function(db) {
                     });
 
                 });
-				}
+            }
 		});
 	});
 
@@ -271,7 +271,6 @@ module.exports = function(db) {
 					assert.equal(null, err);
 					db.close();
 				});
-
 			}
 		});
 	});
@@ -293,7 +292,6 @@ module.exports = function(db) {
                     assert.equal(null, err);
                     db.close();
                 });
-
             }
         });
     });
@@ -309,13 +307,14 @@ module.exports = function(db) {
 
 				var collection = db.collection('PlaycardsData');
 
-				collection.find({DataCenterName:dcName[1]}).toArray(function(err, docs) {
+                var name = dcName[1].replace(/%20/g,' ');
+
+				collection.find({DataCenterName:name}).toArray(function(err, docs) {
 					//console.log(docs);
 					res.json(docs);
 					assert.equal(null, err);
 					db.close();
 				});
-
 			}
 		});
 	});
