@@ -7,6 +7,8 @@ angular.module('datacollectors').controller('PlaycardController', ['$scope', '$h
 
         $scope.playcards = [];
 
+        $scope.selectedDcName=[{}];
+
         $scope.playcard = {
             dcName: "",
             dcTier: "",
@@ -33,17 +35,14 @@ angular.module('datacollectors').controller('PlaycardController', ['$scope', '$h
             pctUtilization: ""
         };
 
-
-
-
         $scope.dataVersionValues = [
 
         ];
 
-        function getPlaycardsData() {
+        function getPlaycardsData(dcName) {
             $http({
                 method: 'GET',
-                url: '/playcards_data'
+                url: '/playcards_data/?dcName=' + dcName
             }).success(function(data){
                 $scope.playcards = data;
                 {
@@ -79,7 +78,64 @@ angular.module('datacollectors').controller('PlaycardController', ['$scope', '$h
             });
         }
 
-        getPlaycardsData();
+        $scope.dcNames = [];
+
+        function initDcList(){
+            $http.get('/playcards_dc_list').success(function(response) {
+                //console.log('found ' + response.length + ' records for datacenter-listing');
+                response.forEach(function(record){
+                    $scope.dcNames.push({name: record.DataCenterName});
+                });
+            });
+        }
+
+        $scope.$watch(function(scope) {return  $scope.selectedDcName },
+            function(newValue, oldValue) {
+                if(newValue){
+                    if(newValue[0]) {
+                        if(newValue[0].name) {
+                            getPlaycardsData(newValue[0].name);
+                        }
+                            //$scope.selectedDcName[0] = newValue[0];
+                            //$scope.selectedDcName.push({name: newValue[0].name});
+                            //console.log('selected dc name:  ' + $scope.selectedDcName[0].name);
+                            //$scope.playcards.filter(function (selectedPlaycard) {
+                            //    console.log('selectedPlaycard.DataCenterName  :  ' + selectedPlaycard.DataCenterName);
+                            //    $scope.playcard.dcName = selectedPlaycard.DataCenterName;
+                            //    $scope.playcard.dcTier = selectedPlaycard.DcTier;
+                            //    $scope.playcard.contractType = selectedPlaycard.ContractTypes;
+                            //    $scope.playcard.leaseEnds = selectedPlaycard.LeaseEnds;
+                            //    $scope.playcard.kWlUtil = selectedPlaycard.KwLeasedUtilized;
+                            //    $scope.playcard.annualCost = selectedPlaycard.AnnualCost;
+                            //    $scope.playcard.$kWl = selectedPlaycard.KWL;
+                            //    $scope.playcard.certifications = selectedPlaycard.Certifications;
+                            //    $scope.playcard.dcManager = selectedPlaycard.DcManager;
+                            //    $scope.playcard.dcSecurityLead = selectedPlaycard.CscSecurityLead;
+                            //    $scope.playcard.regionalHead = selectedPlaycard.DcRegeonalHead;
+                            //    $scope.playcard.buildDate = selectedPlaycard.BuildDate;
+                            //    $scope.playcard.vendor = selectedPlaycard.Vendor;
+                            //    $scope.playcard.valueOfUtilization = selectedPlaycard.ValueOfUtilization;
+                            //    $scope.playcard.dcAddress = selectedPlaycard.DatacenterAddress;
+                            //    $scope.playcard.dcProvider = selectedPlaycard.DcProvider;
+                            //    $scope.playcard.dcProviderContact = selectedPlaycard.DcProviderContact;
+                            //    $scope.playcard.annualDirectLeaseCost = selectedPlaycard.AnnualDirectLeaseCost;
+                            //
+                            //    $scope.playcard.consolidationStrategy = selectedPlaycard.ConsolidationStrategy.split(",");
+                            //    $scope.playcard.keyAccounts = selectedPlaycard.KeyAccounts.split(",");
+                            //
+                            //    $scope.playcard.sqFtTotal = selectedPlaycard.SqFtTotal;
+                            //    $scope.playcard.sqFtRaised = selectedPlaycard.SqFtRaised;
+                            //    $scope.playcard.pctUtilization = selectedPlaycard.PctUtilization;
+                            //
+                            //});
+                    }
+                }
+            }
+        );
+
+        initDcList();
+
+        //getPlaycardsData();
     }
 ]);
 

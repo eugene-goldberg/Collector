@@ -91,4 +91,19 @@
 
         <div style="position: absolute; top: 138px; left: 630px; height: 140px;width: 144px; background-color: #efefef;font-size: small"><img ng-src="/modules/core/img/globe-03.png" /></div>
 
+        <div style="position: absolute; top: 68px;left:820px;">
+            <label for="dcName">Data Center Name</label>
+            <div id="dcName">
+                <isteven-multi-select
+                        input-model="dcNames"
+                        output-model="selectedDcName"
+                        button-label="icon name"
+                        item-label="icon name maker"
+                        tick-property="ticked"
+                        selection-mode="single"
+                        >
+                </isteven-multi-select>
+            </div>
+        </div>
+
     </div>

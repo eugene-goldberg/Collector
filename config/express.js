@@ -276,9 +276,31 @@ module.exports = function(db) {
 		});
 	});
 
+    app.get('/playcards_dc_list', function(req, res){
+        console.log('_parsedUrl.query:  ' + req._parsedUrl.query);
+
+        MongoClient.connect(url, function (err, db) {
+            if (err) {
+                console.log('Unable to connect to the mongoDB server. Error:', err);
+            } else {
+                console.log('Connection established to', url);
+
+                var collection = db.collection('PlaycardsData');
+
+                collection.find().toArray(function(err, docs) {
+                    //console.log(docs);
+                    res.json(docs);
+                    assert.equal(null, err);
+                    db.close();
+                });
+
+            }
+        });
+    });
+
 	app.get('/playcards_data', function(req, res){
 		console.log('_parsedUrl.query:  ' + req._parsedUrl.query);
-
+        var dcName = req._parsedUrl.query.split("=");
 		MongoClient.connect(url, function (err, db) {
 			if (err) {
 				console.log('Unable to connect to the mongoDB server. Error:', err);
@@ -287,7 +309,7 @@ module.exports = function(db) {
 
 				var collection = db.collection('PlaycardsData');
 
-				collection.find().toArray(function(err, docs) {
+				collection.find({DataCenterName:dcName[1]}).toArray(function(err, docs) {
 					//console.log(docs);
 					res.json(docs);
 					assert.equal(null, err);
