@@ -5,30 +5,32 @@ angular.module('datacollectors').controller('PlaycardController', ['$scope', '$h
     function($scope, $http, $stateParams, $location, Authentication, Datacollectors) {
         $scope.authentication = Authentication;
 
+        $scope.playcards = [];
+
         $scope.playcard = {
-            dcName: "Chicago Data Center",
-            dcTier: "Tier-4",
-            contractType: "5-year Lease",
-            leaseEnds: "12/12/2015",
-            kWlUtil:    "540/430",
-            annualCost: "$3,5000.00",
-            $kWl:   "0.359",
-            certifications: "ISO9001, super-cert-01, other-cert-02",
-            dcManager:  "Scott Margolin",
-            dcSecurityLead: "Joe Smith",
-            regionalHead:   "Tom Soyer",
-            buildDate:  "12/12/2015",
-            vendor: "ATT",
-            valueOfUtilization: "42",
-            dcAddress:  "123 Main st, Chicago IL 60604",
-            dcProvider: "some provider",
-            dcProviderContact:    "some contact",
-            consolidationStrategy:  ["Optimize Footprint in Data Center in FY16 and FY17 ", "and then go do something else... "],
-            annualDirectLeaseCost:  "2,349.00",
-            keyAccounts: ['Aon','Zurich'],
-            sqFtTotal:  "4,735",
-            sqFtRaised: "4,573",
-            pctUtilization: "96%"
+            dcName: "",
+            dcTier: "",
+            contractType: "",
+            leaseEnds: "",
+            kWlUtil:    "",
+            annualCost: "",
+            $kWl:   "",
+            certifications: "",
+            dcManager:  "",
+            dcSecurityLead: "",
+            regionalHead:   "",
+            buildDate:  "",
+            vendor: "",
+            valueOfUtilization: "",
+            dcAddress:  "",
+            dcProvider: "",
+            dcProviderContact:    "",
+            consolidationStrategy:  [],
+            annualDirectLeaseCost:  "",
+            keyAccounts: [],
+            sqFtTotal:  "",
+            sqFtRaised: "",
+            pctUtilization: ""
         };
 
 
@@ -38,32 +40,47 @@ angular.module('datacollectors').controller('PlaycardController', ['$scope', '$h
 
         ];
 
-        $scope.getData = function() {
-            angular.forEach( $scope.outputCategories, function( value, key ) {
-                collectionName = value.collectionName;
-            });
+        function getPlaycardsData() {
             $http({
                 method: 'GET',
-                url: '/playcard_data'
-                //,
-                //skip: 10,
-                //take:   10
+                url: '/playcards_data'
             }).success(function(data){
-                // With the data succesfully returned, call our callback
-                $scope.data = data;
-                var fields = data[0].DataFields;
+                $scope.playcards = data;
+                console.log('Key accounts:  ' + $scope.playcards[0].KeyAccounts);
+                {
+                    $scope.playcard.dcName = $scope.playcards[0].DataCenterName;
+                    $scope.playcard.dcTier = $scope.playcards[0].DcTier;
+                    $scope.playcard.contractType = $scope.playcards[0].ContractTypes;
+                    $scope.playcard.leaseEnds = $scope.playcards[0].LeaseEnds;
+                    $scope.playcard.kWlUtil =    $scope.playcards[0].KwLeasedUtilized;
+                    $scope.playcard.annualCost = $scope.playcards[0].AnnualCost;
+                    $scope.playcard.$kWl =   $scope.playcards[0].KWL;
+                    $scope.playcard.certifications = $scope.playcards[0].Certifications;
+                    $scope.playcard.dcManager =  $scope.playcards[0].DcManager;
+                    $scope.playcard.dcSecurityLead = $scope.playcards[0].CscSecurityLead;
+                    $scope.playcard.regionalHead =   $scope.playcards[0].DcRegeonalHead;
+                    $scope.playcard.buildDate =  $scope.playcards[0].BuildDate;
+                    $scope.playcard.vendor = $scope.playcards[0].Vendor;
+                    $scope.playcard.valueOfUtilization = $scope.playcards[0].ValueOfUtilization;
+                    $scope.playcard.dcAddress =  $scope.playcards[0].DatacenterAddress;
+                    $scope.playcard.dcProvider = $scope.playcards[0].DcProvider;
+                    $scope.playcard.dcProviderContact =    $scope.playcards[0].DcProviderContact;
+                    $scope.playcard.annualDirectLeaseCost =  $scope.playcards[0].AnnualDirectLeaseCost;
 
-                var fieldList = [];
+                    $scope.playcard.consolidationStrategy =  $scope.playcards[0].ConsolidationStrategy.split(",");
+                    $scope.playcard.keyAccounts = $scope.playcards[0].KeyAccounts.split(",");
 
-                fieldList = fields.split(',');
-
-                fieldList.forEach(function(field){
-                    $scope.collectionDatafields.push({dataField: field, caption: field, visible: false});
-                });
+                    $scope.playcard.sqFtTotal =  $scope.playcards[0].SqFtTotal;
+                    $scope.playcard.sqFtRaised = $scope.playcards[0].SqFtRaised;
+                    $scope.playcard.pctUtilization = $scope.playcards[0].PctUtilization;
+                }
+                var p = $scope.playcard;
             }).error(function(){
                 alert('error');
             });
-        };
+        }
+
+        getPlaycardsData();
     }
 ]);
 

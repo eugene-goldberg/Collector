@@ -276,6 +276,28 @@ module.exports = function(db) {
 		});
 	});
 
+	app.get('/playcards_data', function(req, res){
+		console.log('_parsedUrl.query:  ' + req._parsedUrl.query);
+
+		MongoClient.connect(url, function (err, db) {
+			if (err) {
+				console.log('Unable to connect to the mongoDB server. Error:', err);
+			} else {
+				console.log('Connection established to', url);
+
+				var collection = db.collection('PlaycardsData');
+
+				collection.find().toArray(function(err, docs) {
+					//console.log(docs);
+					res.json(docs);
+					assert.equal(null, err);
+					db.close();
+				});
+
+			}
+		});
+	});
+
 	app.post('/salesforce_update', function(req, res){
 		console.log('Salesforce update Request Received');
 		console.log('request body:  ' + req.body);
