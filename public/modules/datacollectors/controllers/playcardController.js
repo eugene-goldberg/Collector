@@ -6,6 +6,7 @@ angular.module('datacollectors').controller('PlaycardController', ['$scope', '$h
         $scope.authentication = Authentication;
 
         $scope.playcard = {
+            dcName: "Chicago Data Center",
             dcTier: "Tier-4",
             contractType: "5-year Lease",
             leaseEnds: "12/12/2015",
@@ -22,10 +23,12 @@ angular.module('datacollectors').controller('PlaycardController', ['$scope', '$h
             dcAddress:  "123 Main st, Chicago IL 60604",
             dcProvider: "some provider",
             dcProviderContact:    "some contact",
-            consolidationStrategyItem1:  "Optimize Footprint in Data Center in FY16 and FY17 ",
-            consolidationStrategyItem2:  "and then go do something else... ",
+            consolidationStrategy:  ["Optimize Footprint in Data Center in FY16 and FY17 ", "and then go do something else... "],
             annualDirectLeaseCost:  "2,349.00",
-            keyAccounts: ['Aon','Zurich']
+            keyAccounts: ['Aon','Zurich'],
+            sqFtTotal:  "4,735",
+            sqFtRaised: "4,573",
+            pctUtilization: "96%"
         };
 
 
