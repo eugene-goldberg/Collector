@@ -67,7 +67,6 @@ angular.module('datacollectors').controller('PlaycardController', ['$scope', '$h
                     $scope.playcard.sqFtRaised = $scope.playcards[0].SqFtRaised;
                     $scope.playcard.pctUtilization = $scope.playcards[0].PctUtilization;
                 }
-                var p = $scope.playcard;
             }).error(function(){
                 alert('error');
             });

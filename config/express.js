@@ -162,11 +162,11 @@ module.exports = function(db) {
             } else {
                 console.log('Connection established to', url);
 
-                var collection = db.collection('DC_Facilities');
+                var collection = db.collection('SalesforceData');
 
                 var opportunityDetail = {};
 
-                collection.find({CSCOpportunityID: query.opportunityId, Subject: "salesforce-power"},
+                collection.find({CSCOpportunityID: query.opportunityId},
                     function(err, docs) {
                         var opportunityDetail = {};
                     docs.forEach(function(doc){
@@ -176,17 +176,31 @@ module.exports = function(db) {
                             if(prop === 'OpportunityNmae' || prop === 'AccountName'){
                                 opportunityDetail.OpportunityName = doc['OpportunityName'];
                                 opportunityDetail.AccountName = doc['AccountName'];
+                                opportunityDetail.SolutionExecutiveName = doc['SolutionExecutiveName'];
+                                opportunityDetail.SolutionArchitectName = doc['SolutionArchitectName'];
 
-								opportunityDetail.FY16 = doc['FY16'];
-								opportunityDetail.FY17 = doc['FY17'];
-								opportunityDetail.FY18 = doc['FY18'];
-								opportunityDetail.FY19 = doc['FY19'];
-								opportunityDetail.FY20 = doc['FY20'];
-								opportunityDetail.FY21 = doc['FY21'];
-								opportunityDetail.FY22 = doc['FY22'];
-								opportunityDetail.FY23 = doc['FY23'];
-								opportunityDetail.FY24 = doc['FY24'];
-								opportunityDetail.FY25 = doc['FY25'];
+								opportunityDetail.kwFY16 = doc['kwFY16'];
+								opportunityDetail.kwFY17 = doc['kwFY17'];
+								opportunityDetail.kwFY18 = doc['kwFY18'];
+								opportunityDetail.kwFY19 = doc['kwFY19'];
+								opportunityDetail.kwFY20 = doc['kwFY20'];
+								opportunityDetail.kwFY21 = doc['kwFY21'];
+								opportunityDetail.kwFY22 = doc['kwFY22'];
+								opportunityDetail.kwFY23 = doc['kwFY23'];
+								opportunityDetail.kwFY24 = doc['kwFY24'];
+								opportunityDetail.kwFY25 = doc['kwFY25'];
+
+                                opportunityDetail.cbFY16 = doc['cbFY16'];
+                                opportunityDetail.cbFY17 = doc['cbFY17'];
+                                opportunityDetail.cbFY18 = doc['cbFY18'];
+                                opportunityDetail.cbFY19 = doc['cbFY19'];
+                                opportunityDetail.cbFY20 = doc['cbFY20'];
+                                opportunityDetail.cbFY21 = doc['cbFY21'];
+                                opportunityDetail.cbFY22 = doc['cbFY22'];
+                                opportunityDetail.cbFY23 = doc['cbFY23'];
+                                opportunityDetail.cbFY24 = doc['cbFY24'];
+                                opportunityDetail.cbFY25 = doc['cbFY25'];
+
                                 opportunityDetail.DCCountry = doc['DCCountry'];
                                 opportunityDetail.DCSiteCode = doc['DCSiteCode'];
                                 opportunityDetail.DCSKU = doc['DCSKU'];
@@ -223,7 +237,7 @@ module.exports = function(db) {
                         if(user._id.toString() === req.session.passport.user){
                             console.log('found our current user:  ' + user.username);
 
-                            var collection = db.collection('DC_Facilities');
+                            var collection = db.collection('SalesforceData');
 
                             collection.distinct('CSCOpportunityID', {OpportunityOwner: user.username},
                                 (function(err, docs) {
@@ -296,6 +310,39 @@ module.exports = function(db) {
         });
     });
 
+    app.get('/salesforce_dc_data', function(req, res){
+        console.log('_parsedUrl.query:  ' + req._parsedUrl.query);
+        var query = req._parsedUrl.query.split("&");
+        var opportunityId = query[0].split("=")[1];
+        var dcName = query[1].split("=")[1];
+        var p = 0;
+        MongoClient.connect(url, function (err, db) {
+            if (err) {
+                console.log('Unable to connect to the mongoDB server. Error:', err);
+            } else {
+                console.log('Connection established to', url);
+
+                var collection = db.collection('SalesforceData');
+
+                collection.find({CSCOpportunityID:opportunityId}).toArray(function(err, docs) {
+                    if(dcName.indexOf('%20') !== -1){
+                        dcName = dcName.replace(/%20/g,' ')
+                    }
+                    docs.forEach(function(doc){
+                        doc.DataCenters.forEach(function(dc){
+                            if(dc.DataCenterName === dcName){
+                                res.json(dc);
+                            }
+                        });
+                    });
+
+                    assert.equal(null, err);
+                    db.close();
+                });
+            }
+        });
+    });
+
 	app.get('/playcards_data', function(req, res){
 		console.log('_parsedUrl.query:  ' + req._parsedUrl.query);
         var dcName = req._parsedUrl.query.split("=");
@@ -320,46 +367,184 @@ module.exports = function(db) {
 	});
 
 	app.post('/salesforce_update', function(req, res){
-		console.log('Salesforce update Request Received');
+		console.log('Salesforce DC update Request Received');
 		console.log('request body:  ' + req.body);
+
+
 
         MongoClient.connect(url, function (err, db) {
             if (err) {
                 console.log('Unable to connect to the mongoDB server. Error:', err);
             } else {
-                console.log('Connection established to', url);
-                console.log('req.body.kwRequired_2016}', req.body.kwRequired_2016);
-                var collection = db.collection('DC_Facilities');
+                var collection = db.collection('SalesforceData');
+                var matchingRecords;
+
                 collection.update(
                     {
-                        Subject: "salesforce-power",
-                        CSCOpportunityID:  req.body.opportunityId
+                        CSCOpportunityID: req.body.opportunityId
                     },
                     {$set:
-                    {FY16: req.body.kwRequired_2016,
-                        FY17: req.body.kwRequired_2017,
-                        FY18: req.body.kwRequired_2018,
-                        FY19: req.body.kwRequired_2019,
-                        FY20: req.body.kwRequired_2020,
-                        FY21: req.body.kwRequired_2021,
-                        FY22: req.body.kwRequired_2022,
-                        FY23: req.body.kwRequired_2023,
-                        FY24: req.body.kwRequired_2024,
-                        FY25: req.body.kwRequired_2025,
-                        DCCountry: req.body.dcCountry,
-                        DCSiteCode: req.body.dcSiteCode,
-                        DCSKU: req.body.dcSku
+                    {
+                        OpportunityName: req.body.opportunityName,
+                        AccountName: req.body.accountName,
+                        SolutionExecutiveName: req.body.solutionExecutiveName,
+                        SolutionArchitectName: req.body.solutionArchitectName
+
                     }
+
                     },
+                    {upsert:true},
+
                     function(err, result){
-                    if(err){
-                        console.log('err:  ' + err);
-                    }
+                        if(err){
+                            console.log('err:  ' + err);
+                        }
                         else{
-                        console.log('update result:  ' + result);
-                        res.send(201);
+                            console.log('update result:  ' + result);
+                        }
+                    });
+
+                collection.find(
+                    {
+                        CSCOpportunityID:  req.body.opportunityId,
+                        "DataCenters.DataCenterName": req.body.dcName
                     }
-                });
+                ).toArray(function(err, docs) {
+                        if(err){
+                            console.log('err: ' + err);
+                        }
+                        //console.log(docs);
+                        //res.json(docs);
+                        assert.equal(null, err);
+                        if(docs.length === 0){
+                            var m = 0;
+                            collection.update(
+                                {
+                                    CSCOpportunityID: req.body.opportunityId
+                                },
+                            {
+                                $addToSet:
+
+                                {
+                                    DataCenters:
+                                        {
+                                            "DataCenterName": req.body.dcName,
+                                            "DCCountry": req.body.dcCountry,
+                                            "DCSiteCode": req.body.dcSiteCode,
+                                            "DCSKU": req.body.dcSku,
+
+                                            "kwFY16": req.body.kwRequired_2016,
+                                            "kwFY17": req.body.kwRequired_2017,
+                                            "kwFY18": req.body.kwRequired_2018,
+                                            "kwFY19": req.body.kwRequired_2019,
+                                            "kwFY20": req.body.kwRequired_2020,
+                                            "kwFY21": req.body.kwRequired_2021,
+                                            "kwFY22": req.body.kwRequired_2022,
+                                            "kwFY23": req.body.kwRequired_2023,
+                                            "kwFY24": req.body.kwRequired_2024,
+                                            "kwFY25": req.body.kwRequired_2025,
+
+                                            "cbFY16": req.body.cbRequired_2016,
+                                            "cbFY17": req.body.cbRequired_2017,
+                                            "cbFY18": req.body.cbRequired_2018,
+                                            "cbFY19": req.body.cbRequired_2019,
+                                            "cbFY20": req.body.cbRequired_2020,
+                                            "cbFY21": req.body.cbRequired_2021,
+                                            "cbFY22": req.body.cbRequired_2022,
+                                            "cbFY23": req.body.cbRequired_2023,
+                                            "cbFY24": req.body.cbRequired_2024,
+                                            "cbFY25": req.body.cbRequired_2025,
+
+                                            cloudCompute:   req.body.cloudCompute,
+                                            bizCloudHc: req.body.bizCloudHc,
+                                            bizCloud:   req.body.bizCloud,
+                                            storageAsAService:  req.body.storageAsAService,
+                                            mainframe:  req.body.mainframe,
+                                            unixFarm:   req.body.unixFarm,
+                                            windowsFarm: req.body.windowsFarm,
+                                            as400:  req.body.as400,
+                                            myWorkstyle: req.body.myWorkstyle,
+                                            cyber:  req.body.cyber,
+                                            serviceManagement: req.body.serviceManagement,
+                                            lan:    req.body.lan,
+                                            wan:    req.body.wan
+                                        }
+                                }
+                            },
+                                function(err, result){
+                                    if(err){
+                                        console.log('err:  ' + err);
+                                    }
+                                    else{
+                                        console.log('update result:  ' + result);
+                                        res.send(201);
+                                    }
+                                });
+                        }
+                        else {
+                            var p = 0;
+                            collection.update(
+                                {
+                                    CSCOpportunityID:  req.body.opportunityId,
+                                    "DataCenters.DataCenterName": req.body.dcName
+                                },
+                                {$set:
+                                {
+                            	    "DataCenters.$.kwFY16": req.body.kwRequired_2016,
+                                    "DataCenters.$.kwFY17": req.body.kwRequired_2017,
+                                    "DataCenters.$.kwFY18": req.body.kwRequired_2018,
+                                    "DataCenters.$.kwFY19": req.body.kwRequired_2019,
+                                    "DataCenters.$.kwFY20": req.body.kwRequired_2020,
+                                    "DataCenters.$.kwFY21": req.body.kwRequired_2021,
+                                    "DataCenters.$.kwFY22": req.body.kwRequired_2022,
+                                    "DataCenters.$.kwFY23": req.body.kwRequired_2023,
+                                    "DataCenters.$.kwFY24": req.body.kwRequired_2024,
+                                    "DataCenters.$.kwFY25": req.body.kwRequired_2025,
+
+                                    "DataCenters.$.cbFY16": req.body.cbRequired_2016,
+                                    "DataCenters.$.cbFY17": req.body.cbRequired_2017,
+                                    "DataCenters.$.cbFY18": req.body.cbRequired_2018,
+                                    "DataCenters.$.cbFY19": req.body.cbRequired_2019,
+                                    "DataCenters.$.cbFY20": req.body.cbRequired_2020,
+                                    "DataCenters.$.cbFY21": req.body.cbRequired_2021,
+                                    "DataCenters.$.cbFY22": req.body.cbRequired_2022,
+                                    "DataCenters.$.cbFY23": req.body.cbRequired_2023,
+                                    "DataCenters.$.cbFY24": req.body.cbRequired_2024,
+                                    "DataCenters.$.cbFY25": req.body.cbRequired_2025,
+
+                                    "DataCenters.$.DCCountry": req.body.dcCountry,
+                                    "DataCenters.$.DCSiteCode": req.body.dcSiteCode,
+                                    "DataCenters.$.DCSKU": req.body.dcSku,
+
+                                    "DataCenters.$.cloudCompute":   req.body.cloudCompute,
+                                    "DataCenters.$.bizCloudHc": req.body.bizCloudHc,
+                                    "DataCenters.$.bizCloud":   req.body.bizCloud,
+                                    "DataCenters.$.storageAsAService":  req.body.storageAsAService,
+                                    "DataCenters.$.mainframe":  req.body.mainframe,
+                                    "DataCenters.$.unixFarm":   req.body.unixFarm,
+                                    "DataCenters.$.windowsFarm": req.body.windowsFarm,
+                                    "DataCenters.$.as400":  req.body.as400,
+                                    "DataCenters.$.myWorkstyle": req.body.myWorkstyle,
+                                    "DataCenters.$.cyber":  req.body.cyber,
+                                    "DataCenters.$.serviceManagement": req.body.serviceManagement,
+                                    "DataCenters.$.lan":    req.body.lan,
+                                    "DataCenters.$.wan":    req.body.wan
+                                }
+
+                                },
+                                    {upsert:true},
+                                function(err, result){
+                                if(err){
+                                    console.log('err:  ' + err);
+                                }
+                                    else{
+                                    console.log('update result:  ' + result);
+                                    res.send(201);
+                                }
+                            });
+                        }
+                        //db.close();
+                    });
             }
         });
 	});
