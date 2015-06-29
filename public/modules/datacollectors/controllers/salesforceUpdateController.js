@@ -144,8 +144,8 @@ angular.module('datacollectors').controller('SalesforceUpdateController',
                $scope.computeCheckboxModel.unixFarm = response.unixFarm;
                $scope.computeCheckboxModel.windowsFarm = response.windowsFarm;
                $scope.computeCheckboxModel.as400 = response.as400;
-               $scope.computeCheckboxModel.myWorkstyle = response
-               $scope.computeCheckboxModel.cyber = response.myWorkstyle;
+               $scope.computeCheckboxModel.myWorkstyle = response.myWorkstyle;
+               $scope.computeCheckboxModel.cyber = response.cyber;
                $scope.computeCheckboxModel.serviceManagement = response.serviceManagement;
                $scope.computeCheckboxModel.lan = response.lan;
                $scope.computeCheckboxModel.wan = response.wan;
@@ -274,8 +274,32 @@ angular.module('datacollectors').controller('SalesforceUpdateController',
                 wan:    $scope.computeCheckboxModel.wan
             };
 
+            console.log($scope.computeCheckboxModel.cloudCompute);
+            console.log($scope.computeCheckboxModel.bizCloudHc);
+                console.log($scope.computeCheckboxModel.bizCloud);
+                    console.log($scope.computeCheckboxModel.storageAsAService);
+                        console.log($scope.computeCheckboxModel.mainframe);
+                            console.log($scope.computeCheckboxModel.unixFarm);
+                                console.log($scope.computeCheckboxModel.windowsFarm);
+                                    console.log($scope.computeCheckboxModel.as400);
+                                        console.log($scope.computeCheckboxModel.myWorkstyle);
+                                            console.log($scope.computeCheckboxModel.cyber);
+                                                console.log($scope.computeCheckboxModel.serviceManagement);
+                                                    console.log($scope.computeCheckboxModel.lan);
+                                                        console.log($scope.computeCheckboxModel.wan);
+
             var json = angular.toJson(postData);
-            $http.post('/salesforce_update', json);
+            $http.post('/salesforce_update', json)
+                .then(function(result){
+                    console.log(result);
+
+                });
+        };
+
+        $scope.getSalesforceQuote = function(){
+            $http.get('/salesforce_quote/?fileName=' + 'someFile.pdf').success(function(data) {
+                console.log(data);
+            });
         };
 
         var setAllInactive = function() {
