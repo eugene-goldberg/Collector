@@ -494,6 +494,7 @@ module.exports = function(db) {
                                         console.log('update result:  ' + result);
                                         var fileName = 'quote_' + Math.random() + '_output.pdf';
                                         var html = fs.readFileSync('public/modules/datacollectors/template.html', 'utf8');
+                                        html = html.replace(/placeholder-1/g, 'replacement-1');
                                         var options = { filename: 'public/modules/datacollectors/' + fileName, format: 'Letter' };
                                         pdf.create(html, options).toFile(function(err, res) {
                                             if (err) return console.log(err);
@@ -561,12 +562,14 @@ module.exports = function(db) {
                                     }
                                     else{
                                         console.log('update result:  ' + result);
+
                                         var fileName = 'quote_' + Math.random() + '_output.pdf';
                                         var html = fs.readFileSync('public/modules/datacollectors/template.html', 'utf8');
+                                        html = html.replace(/placeholder-1/g, 'replacement-1');
                                         var options = { filename: 'public/modules/datacollectors/' + fileName, format: 'Letter' };
                                         pdf.create(html, options).toFile(function(err, res) {
                                             if (err) return console.log(err);
-                                            console.log(res); // { filename: '/tmp/html-pdf-8ymPV.pdf' }
+                                            //console.log(res);
                                         });
                                         res.send(201,fileName);
                                     }
