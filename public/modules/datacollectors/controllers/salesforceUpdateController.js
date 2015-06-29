@@ -279,15 +279,28 @@ angular.module('datacollectors').controller('SalesforceUpdateController',
 
             var json = angular.toJson(postData);
             $http.post('/salesforce_update', json)
-                .then(function(result){
-                    //console.log(result);
+                .then(function(result)
+                {
+                    setTimeout(function(){
+                        $http.get("/salesforce_quote/?fileName=" + result.data,
+                            {headers: { 'Accept': 'application/pdf' },
+                                responseType: 'arraybuffer' })
+                            .success(function(data) {
+                                var file = new Blob([data], {type: 'application/pdf'});
+                                var fileURL = URL.createObjectURL(file);
+
+                                var newTab = $window.open('about:blank', '_blank');
+                                newTab.document.write("<object width='600' height='400' data='" + fileURL + "' type='"+ 'application/pdf' +"' ></object>");
+                            });
+                    }, 1000);
+
 
                 });
         };
 
         $scope.getSalesforceQuote = function(){
 
-            $http.get("/salesforce_quote",
+            $http.get("/salesforce_quote/?fileName=" + $scope.quote,
             {headers: { 'Accept': 'application/pdf' },
                 responseType: 'arraybuffer' })
                 .success(function(data) {

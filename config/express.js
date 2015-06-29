@@ -373,8 +373,8 @@ module.exports = function(db) {
 
     app.get('/salesforce_quote', function(req, res){
         console.log('_parsedUrl.query:  ' + req._parsedUrl.query);
-        var file = fs.createReadStream('public/modules/datacollectors/quote_0.7060410063713789_output.pdf');
-        var stat = fs.statSync('public/modules/datacollectors/quote_0.7060410063713789_output.pdf');
+        var file = fs.createReadStream('public/modules/datacollectors/' + req._parsedUrl.query.split('=')[1]);
+        var stat = fs.statSync('public/modules/datacollectors/' + req._parsedUrl.query.split('=')[1]);
         res.setHeader('Content-Length', stat.size);
         res.setHeader('Content-Type', 'application/pdf');
         res.setHeader('Content-Disposition', 'attachment; filename=quote.pdf');
@@ -499,7 +499,7 @@ module.exports = function(db) {
                                             if (err) return console.log(err);
                                             console.log(res); // { filename: '/tmp/html-pdf-8ymPV.pdf' }
                                         });
-                                        res.send(201);
+                                        res.send(201,fileName);
                                     }
                                 });
                         }
