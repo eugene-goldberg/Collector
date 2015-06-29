@@ -373,8 +373,12 @@ module.exports = function(db) {
 
     app.get('/salesforce_quote', function(req, res){
         console.log('_parsedUrl.query:  ' + req._parsedUrl.query);
-        res.send(200);
-
+        var file = fs.createReadStream('public/modules/datacollectors/quote_0.7060410063713789_output.pdf');
+        var stat = fs.statSync('public/modules/datacollectors/quote_0.7060410063713789_output.pdf');
+        res.setHeader('Content-Length', stat.size);
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', 'attachment; filename=quote.pdf');
+        file.pipe(res);
     });
 
     app.post('/salesforce_update', function(req, res){

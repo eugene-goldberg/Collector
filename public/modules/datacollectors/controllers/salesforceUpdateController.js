@@ -2,12 +2,15 @@
 
 angular.module('datacollectors').controller('SalesforceUpdateController',
     ['$scope', '$http', '$stateParams', '$location',
-        'Authentication', 'Datacollectors', 'FileUploader','$rootScope',
+        'Authentication', 'Datacollectors',
+        'FileUploader','$rootScope','$window','$sce',
     function($scope, $http, $stateParams, $location, Authentication,
-             Datacollectors, FileUploader,$rootScope) {
+             Datacollectors, FileUploader,$rootScope,$window,$sce) {
         $scope.authentication = Authentication;
 
         $scope.uploadUrl = '';
+
+        $scope.quote;
 
         var url = 'http://dctool-lnx.cloudapp.net:3001/api/files';
 
@@ -274,32 +277,26 @@ angular.module('datacollectors').controller('SalesforceUpdateController',
                 wan:    $scope.computeCheckboxModel.wan
             };
 
-            console.log($scope.computeCheckboxModel.cloudCompute);
-            console.log($scope.computeCheckboxModel.bizCloudHc);
-                console.log($scope.computeCheckboxModel.bizCloud);
-                    console.log($scope.computeCheckboxModel.storageAsAService);
-                        console.log($scope.computeCheckboxModel.mainframe);
-                            console.log($scope.computeCheckboxModel.unixFarm);
-                                console.log($scope.computeCheckboxModel.windowsFarm);
-                                    console.log($scope.computeCheckboxModel.as400);
-                                        console.log($scope.computeCheckboxModel.myWorkstyle);
-                                            console.log($scope.computeCheckboxModel.cyber);
-                                                console.log($scope.computeCheckboxModel.serviceManagement);
-                                                    console.log($scope.computeCheckboxModel.lan);
-                                                        console.log($scope.computeCheckboxModel.wan);
-
             var json = angular.toJson(postData);
             $http.post('/salesforce_update', json)
                 .then(function(result){
-                    console.log(result);
+                    //console.log(result);
 
                 });
         };
 
         $scope.getSalesforceQuote = function(){
-            $http.get('/salesforce_quote/?fileName=' + 'someFile.pdf').success(function(data) {
-                console.log(data);
-            });
+
+            $http.get("/salesforce_quote",
+            {headers: { 'Accept': 'application/pdf' },
+                responseType: 'arraybuffer' })
+                .success(function(data) {
+                    var file = new Blob([data], {type: 'application/pdf'});
+                    var fileURL = URL.createObjectURL(file);
+
+                    var newTab = $window.open('about:blank', '_blank');
+                    newTab.document.write("<object width='600' height='400' data='" + fileURL + "' type='"+ 'application/pdf' +"' ></object>");
+                });
         };
 
         var setAllInactive = function() {
