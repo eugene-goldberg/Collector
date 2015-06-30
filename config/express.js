@@ -183,8 +183,10 @@ module.exports = function(db) {
                                 if(prop === 'OpportunityNmae' || prop === 'AccountName'){
                                     opportunityDetail.OpportunityName = doc['OpportunityName'];
                                     opportunityDetail.AccountName = doc['AccountName'];
+                                    opportunityDetail.OpportunityOwner = doc['OpportunityOwner'];
                                     opportunityDetail.SolutionExecutiveName = doc['SolutionExecutiveName'];
                                     opportunityDetail.SolutionArchitectName = doc['SolutionArchitectName'];
+                                    opportunityDetail.NoDcInTheDeal = doc['NoDcInTheDeal'];
 
                                     opportunityDetail.kwFY16 = doc['kwFY16'];
                                     opportunityDetail.kwFY17 = doc['kwFY17'];
@@ -422,8 +424,10 @@ module.exports = function(db) {
                     {
                         OpportunityName: req.body.opportunityName,
                         AccountName: req.body.accountName,
+                        OpportunityOwner: req.body.opportunityOwner,
                         SolutionExecutiveName: req.body.solutionExecutiveName,
-                        SolutionArchitectName: req.body.solutionArchitectName
+                        SolutionArchitectName: req.body.solutionArchitectName,
+                        NoDcInTheDeal: req.body.noDcInTheDeal
 
                     }
 

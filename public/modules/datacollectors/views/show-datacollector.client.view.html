@@ -45,8 +45,21 @@
 
                             </div>
 
+                            <div class="row">
+                                <div class="col-sm-2 col-sm-offset-3">
+                                    <label for="opportunityOwner">Opportunity Owner</label>
+                                    <input id="opportunityOwner" name="opportunityOwner" type="text" placeholder="owner" class="form-control" required ng-model="opportunityOwner"/>
+                                </div>
+                            </div>
+
                             <div>
                                 <legend><strong>Data Centers associated with this Salesforce Opportunity</strong> </legend>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label for="noDcInTheDeal">This deal does not include any Data Centers</label>
+                                    <input id="noDcInTheDeal" type="checkbox" ng-model="noDcInTheDeal">
+                                </div>
                             </div>
                                     <div class="row">
                                         <br>
@@ -72,7 +85,7 @@
 
                                             <div class="col-sm-3">
                                             <label for="dcSiteCode">Data Center Site Code</label>
-                                            <input id="dcSiteCode" name="dcSiteCode" type="text" class="form-control" placeholder="data center site code" required ng-model="dcSiteCode"/>
+                                            <input id="dcSiteCode" name="dcSiteCode" type="text" class="form-control" placeholder="data center site code" ng-model="dcSiteCode"/>
                                             </div>
 
                                             <div class="col-sm-3">
@@ -90,69 +103,68 @@
 
                                     <div class="row">
                                         <div class="col-sm-3">
-                                        <label for="cloudCompute">Cloud Compute</label>
-                                        <input id="cloudCompute" type="checkbox" ng-model="computeCheckboxModel.cloudCompute">
-                                        </div>
-                                        <div class="col-sm-3">
-                                        <label for="bizCloudHc">Biz Cloud HC</label>
-                                        <input id="bizCloudHc" type="checkbox" ng-model="computeCheckboxModel.bizCloudHc">
+                                            <label for="as400">AS/400</label>
+                                            <input id="as400" type="checkbox" ng-model="computeCheckboxModel.as400">
                                         </div>
                                         <div class="col-sm-3">
                                             <label for="bizCloud">Biz Cloud</label>
                                             <input id="bizCloud" type="checkbox" ng-model="computeCheckboxModel.bizCloud">
                                         </div>
                                         <div class="col-sm-3">
-                                            <label for="storageAsAService">Storage as a Service</label>
-                                            <input id="storageAsAService" type="checkbox" ng-model="computeCheckboxModel.storageAsAService">
+                                            <label for="bizCloudHc">Biz Cloud HC</label>
+                                            <input id="bizCloudHc" type="checkbox" ng-model="computeCheckboxModel.bizCloudHc">
                                         </div>
+                                        <div class="col-sm-3">
+                                            <label for="cloudCompute">Cloud Compute</label>
+                                            <input id="cloudCompute" type="checkbox" ng-model="computeCheckboxModel.cloudCompute">
                                         </div>
+                                    </div>
                                     <div class="row">
-                                        <div class="col-sm-3">
-                                            <label for="mainframe">Mainframe</label>
-                                            <input id="mainframe" type="checkbox" ng-model="computeCheckboxModel.mainframe">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <label for="unixFarm">Unix farm</label>
-                                            <input id="unixFarm" type="checkbox" ng-model="computeCheckboxModel.unixFarm">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <label for="windowsFarm">Windows farm</label>
-                                            <input id="windowsFarm" type="checkbox" ng-model="computeCheckboxModel.windowsFarm">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <label for="as400">AS/400</label>
-                                            <input id="as400" type="checkbox" ng-model="computeCheckboxModel.as400">
-                                        </div>
-                                        </div>
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <label for="UcaaS">UCaaS</label>
-                                            <input id="UcaaS" type="checkbox" ng-model="computeCheckboxModel.UcaaS">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <label for="myWorkstyle">My Workstyle</label>
-                                            <input id="myWorkstyle" type="checkbox" ng-model="computeCheckboxModel.myWorkstyle">
-                                        </div>
                                         <div class="col-sm-3">
                                             <label for="cyber">Cyber</label>
                                             <input id="cyber" type="checkbox" ng-model="computeCheckboxModel.cyber">
                                         </div>
                                         <div class="col-sm-3">
-                                            <label for="serviceManagement">Service Management</label>
-                                            <input id="serviceManagement" type="checkbox" ng-model="computeCheckboxModel.serviceManagement">
-                                        </div>
-                                        </div>
-                                    <div class="row">
-                                        <div class="col-sm-3">
                                             <label for="lan">LAN</label>
                                             <input id="lan" type="checkbox" ng-model="computeCheckboxModel.lan">
                                         </div>
                                         <div class="col-sm-3">
+                                            <label for="mainframe">Mainframe</label>
+                                            <input id="mainframe" type="checkbox" ng-model="computeCheckboxModel.mainframe">
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <label for="myWorkstyle">My Workstyle</label>
+                                            <input id="myWorkstyle" type="checkbox" ng-model="computeCheckboxModel.myWorkstyle">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <label for="serviceManagement">Service Management</label>
+                                            <input id="serviceManagement" type="checkbox" ng-model="computeCheckboxModel.serviceManagement">
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <label for="storageAsAService">Storage as a Service</label>
+                                            <input id="storageAsAService" type="checkbox" ng-model="computeCheckboxModel.storageAsAService">
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <label for="UcaaS">UCaaS</label>
+                                            <input id="UcaaS" type="checkbox" ng-model="computeCheckboxModel.UcaaS">
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <label for="unixFarm">Unix farm</label>
+                                            <input id="unixFarm" type="checkbox" ng-model="computeCheckboxModel.unixFarm">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3">
                                             <label for="wan">WAN</label>
                                             <input id="wan" type="checkbox" ng-model="computeCheckboxModel.wan">
                                         </div>
+                                        <div class="col-sm-3">
+                                            <label for="windowsFarm">Windows farm</label>
+                                            <input id="windowsFarm" type="checkbox" ng-model="computeCheckboxModel.windowsFarm">
+                                        </div>
                                     </div>
-
                             <div>
                                 <br>
                                 <h4>kW Requirement for each contract year</h4>

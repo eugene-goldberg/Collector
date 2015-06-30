@@ -61,6 +61,8 @@ angular.module('datacollectors').controller('SalesforceUpdateController',
                     $scope.accountName = response.AccountName;
                     $scope.solutionExecutiveName = response.SolutionExecutiveName;
                     $scope.solutionArchitectName = response.SolutionArchitectName;
+                    $scope.opportunityOwner = response.OpportunityOwner;
+                    $scope.noDcInTheDeal = response.NoDcInTheDeal;
 
                 console.log('response: ' + response);
                 console.log('opportunityName: ' + $scope.opportunityName);
@@ -234,8 +236,10 @@ angular.module('datacollectors').controller('SalesforceUpdateController',
                 opportunityId: $scope.selectedOpportunity[0].name,
                 opportunityName: $scope.opportunityName,
                 accountName: $scope.accountName,
+                opportunityOwner: $scope.opportunityOwner,
                 solutionExecutiveName: $scope.solutionExecutiveName,
                 solutionArchitectName: $scope.solutionArchitectName,
+                noDcInTheDeal: $scope.noDcInTheDeal,
                 dcName: $scope.$parent.selectedName,
                 dcCountry: $scope.dcCountry,
                 dcSiteCode: $scope.dcSiteCode,
