@@ -358,11 +358,15 @@ module.exports = function(db) {
                         dcName = dcName.replace(/%20/g,' ')
                     }
                     docs.forEach(function(doc){
-                        doc.DataCenters.forEach(function(dc){
-                            if(dc.DataCenterName === dcName){
-                                res.json(dc);
+                        if(doc.DataCenters){
+                            if(doc.DataCenters.length > 0){
+                                doc.DataCenters.forEach(function(dc){
+                                    if(dc.DataCenterName === dcName){
+                                        res.json(dc);
+                                    }
+                                });
                             }
-                        });
+                        }
                     });
 
                     assert.equal(null, err);
