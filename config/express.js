@@ -243,20 +243,40 @@ module.exports = function(db) {
                         //console.log('user id:  ' + user._id.toString());
                         if(user._id.toString() === req.session.passport.user){
                             console.log('found our current user:  ' + user.username);
+                            var isAdmin = user.roles.indexOf('admin');
 
-                            var collection = db.collection('SalesforceData');
+                            if(isAdmin > 0){
+                                var collection = db.collection('SalesforceData');
 
-                            collection.distinct('CSCOpportunityID', {OpportunityOwner: user.username},
-                                (function(err, docs) {
-                                    //console.log(docs);
-                                    var idList = [];
-                                    docs.forEach(function(doc){
-                                        idList.push({name: doc});
-                                    });
-                                    res.json(idList);
-                                    assert.equal(null, err);
-                                    db.close();
-                                }));
+                                collection.distinct('CSCOpportunityID', {ProbabilityPct: {$gt: 80}},
+                                    (function(err, docs) {
+                                        //console.log(docs);
+                                        var idList = [];
+                                        docs.forEach(function(doc){
+                                            idList.push({name: doc});
+                                        });
+                                        res.json(idList);
+                                        assert.equal(null, err);
+                                        db.close();
+                                    }));
+                            }
+                            else {
+                                var collection = db.collection('SalesforceData');
+
+                                collection.distinct('CSCOpportunityID', {OpportunityOwner: user.username},
+                                    (function(err, docs) {
+                                        //console.log(docs);
+                                        var idList = [];
+                                        docs.forEach(function(doc){
+                                            idList.push({name: doc});
+                                        });
+                                        res.json(idList);
+                                        assert.equal(null, err);
+                                        db.close();
+                                    }));
+                            }
+
+
                         }
                     });
 
@@ -497,8 +517,31 @@ module.exports = function(db) {
 
                                         var tmpl = swig.compileFile('public/modules/datacollectors/template.html'),
                                             renderedHtml = tmpl({
-                                                kWLeased2016: '12345',
-                                                kWLeased2017: '12345'
+                                                DcName: req.body.dcName,
+                                                OpportunityId:  req.body.opportunityId,
+                                                OpportunityName:  req.body.opportunityName,
+                                                AccountName:    req.body.accountName,
+                                                kWLeased2016: Math.round(((Number(req.body.kwRequired_2016) * 185) * 12)),
+                                                kWLeased2017: Math.round(((Number(req.body.kwRequired_2017) * 185) * 12)),
+                                                kWLeased2018: Math.round(((Number(req.body.kwRequired_2018) * 185) * 12)),
+                                                kWLeased2019: Math.round(((Number(req.body.kwRequired_2019) * 185) * 12)),
+                                                kWLeased2020: Math.round(((Number(req.body.kwRequired_2020) * 185) * 12)),
+                                                kWLeased2021: Math.round(((Number(req.body.kwRequired_2021) * 185) * 12)),
+                                                kWLeased2022: Math.round(((Number(req.body.kwRequired_2022) * 185) * 12)),
+                                                kWLeased2023: Math.round(((Number(req.body.kwRequired_2023) * 185) * 12)),
+                                                kWLeased2024: Math.round(((Number(req.body.kwRequired_2024) * 185) * 12)),
+                                                kWLeased2025: Math.round(((Number(req.body.kwRequired_2025) * 185) * 12)),
+
+                                                electricBudget2016: Math.round((((Number(req.body.kwRequired_2016) * 720) * 12) * 0.09)),
+                                                electricBudget2017: Math.round((((Number(req.body.kwRequired_2017) * 720) * 12) * 0.09)),
+                                                electricBudget2018: Math.round((((Number(req.body.kwRequired_2018) * 720) * 12) * 0.09)),
+                                                electricBudget2019: Math.round((((Number(req.body.kwRequired_2019) * 720) * 12) * 0.09)),
+                                                electricBudget2020: Math.round((((Number(req.body.kwRequired_2020) * 720) * 12) * 0.09)),
+                                                electricBudget2021: Math.round((((Number(req.body.kwRequired_2021) * 720) * 12) * 0.09)),
+                                                electricBudget2022: Math.round((((Number(req.body.kwRequired_2022) * 720) * 12) * 0.09)),
+                                                electricBudget2023: Math.round((((Number(req.body.kwRequired_2023) * 720) * 12) * 0.09)),
+                                                electricBudget2024: Math.round((((Number(req.body.kwRequired_2024) * 720) * 12) * 0.09)),
+                                                electricBudget2025: Math.round((((Number(req.body.kwRequired_2025) * 720) * 12) * 0.09))
                                             });
 
                                         var options = { filename: 'public/modules/datacollectors/' + fileName, format: 'Letter' };
