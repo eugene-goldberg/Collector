@@ -6,8 +6,8 @@ angular.module('datacollectors').config(['$stateProvider',
 		// Datacollectors state routing
 		$stateProvider.
 		state('listDatacollectors', {
-			url: '/datacollectors',
-				templateUrl: 'modules/datacollectors/views/show-datacollector.client.view.html'
+			url: '/sfupdate',
+				templateUrl: 'modules/datacollectors/views/salesforce-update.client.view.html'
 		}).
 			state('dcupdate', {
 				url: '/dcupdate',

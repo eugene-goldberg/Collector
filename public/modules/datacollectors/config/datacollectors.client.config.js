@@ -4,7 +4,7 @@ angular.module('datacollectors').run(['Menus',
 	function(Menus) {
 		// Set top bar menu items
 		Menus.addMenuItem('topbar', 'Data Management', 'datacollectors', 'dropdown', '/datacollectors(/create)?');
-		Menus.addSubMenuItem('topbar', 'datacollectors', 'Update Salesforce Data', 'datacollectors',null,true,['sfupdate','admin']);
+		Menus.addSubMenuItem('topbar', 'datacollectors', 'Update Salesforce Data', 'sfupdate',null,true,['sfupdate','admin']);
 		Menus.addSubMenuItem('topbar', 'datacollectors', 'Update DC Data', 'dcupdate');
 		Menus.addSubMenuItem('topbar', 'datacollectors', 'View Playcards', 'playcard');
 		Menus.addSubMenuItem('topbar', 'datacollectors', 'Dashboard', 'dashboard');
