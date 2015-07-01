@@ -8,9 +8,25 @@ angular.module('datacollectors').controller('SalesforceUpdateController',
              Datacollectors, FileUploader,$rootScope,$window,$sce) {
         $scope.authentication = Authentication;
 
+        var user = Authentication.user;
+
         $scope.uploadUrl = '';
 
         $scope.quote;
+
+        $scope.selectedOpportunity = [];
+
+        $scope.isAdmin = false;
+
+        function assertIsAdmin(){
+            var isAdmin = user.roles.indexOf('admin');
+            if(isAdmin > 0){
+                $scope.isAdmin = true;
+            }
+            else {
+                $scope.isAdmin = false;
+            }
+        }
 
         var url = 'http://dctool-lnx.cloudapp.net:3001/api/files';
 
@@ -49,6 +65,29 @@ angular.module('datacollectors').controller('SalesforceUpdateController',
                 });
             });
         }
+
+        $scope.getOpportunityDetails = function(opportunityId){
+            $http.get('/opportunities/?opportunityId=' + opportunityId).success(function(response) {
+
+                for(var prop in response){
+                    console.log('response prop: ' + prop);
+                    console.log('response prop value: ' + response[prop]);
+                }
+                $scope.selectedOpportunityId = response.CSCOpportunityID;
+                $scope.opportunityName = response.OpportunityName;
+                $scope.accountName = response.AccountName;
+                $scope.solutionExecutiveName = response.SolutionExecutiveName;
+                $scope.solutionArchitectName = response.SolutionArchitectName;
+                $scope.opportunityOwner = response.OpportunityOwner;
+                $scope.noDcInTheDeal = response.NoDcInTheDeal;
+
+                console.log('response: ' + response);
+                console.log('opportunityName: ' + $scope.opportunityName);
+                console.log('accountName: ' + $scope.accountName);
+
+                $scope.selectedOpportunity.push(response);
+            });
+        };
 
         function getOpportunityDetails(opportunityId){
             $http.get('/opportunities/?opportunityId=' + opportunityId).success(function(response) {
@@ -167,6 +206,8 @@ angular.module('datacollectors').controller('SalesforceUpdateController',
             });
         }
 
+        assertIsAdmin();
+
         getEnvironment();
 
         initOpportunityIdList();
@@ -220,7 +261,13 @@ angular.module('datacollectors').controller('SalesforceUpdateController',
                 if(newValue[0]){
                     $scope.$parent.selectedName = newValue[0].name;
                     if($scope.selectedOpportunity){
-                        getDataCenterDetail($scope.selectedOpportunity[0].name,newValue[0].name);
+                        if($scope.selectedOpportunity[0].name){
+                            getDataCenterDetail($scope.selectedOpportunity[0].name,newValue[0].name);
+                        }
+                        else {
+                            getDataCenterDetail($scope.selectedOpportunityId,newValue[0].name);
+                        }
+
                     }
                 }
 

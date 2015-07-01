@@ -6,6 +6,15 @@
                     <div class="form-group">
                         <br>
                         <fieldset>
+                            <div class="row" ng-show="isAdmin">
+                                <div class="col-sm-3">
+                                    <label for="opportunityIdSearch">Opportunity Lookup</label>
+                                    <input id="opportunityIdSearch" name="opportunityIdSearch" type="text" placeholder="enter opportunity id" class="form-control" ng-model="opportunityIdSearch"/>
+                                </div>
+                                <div class="col-sm-1">
+                                    <input type="button" id="searchButton" style="margin-top: 37px;" value="Search" ng-click="getOpportunityDetails(opportunityIdSearch)" />
+                                </div>
+                            </div>
                             <div class="row">
                                     <legend><strong>Salesforce Opportunity</strong> </legend>
                                     <div class="col-sm-3">

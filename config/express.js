@@ -181,6 +181,7 @@ module.exports = function(db) {
                                 console.log('opportunity prop name: ' + prop);
                                 console.log('prop value is  : ' + doc[prop]);
                                 if(prop === 'OpportunityNmae' || prop === 'AccountName'){
+                                    opportunityDetail.CSCOpportunityID = doc['CSCOpportunityID'];
                                     opportunityDetail.OpportunityName = doc['OpportunityName'];
                                     opportunityDetail.AccountName = doc['AccountName'];
                                     opportunityDetail.OpportunityOwner = doc['OpportunityOwner'];
