@@ -360,13 +360,18 @@ module.exports = function(db) {
                     docs.forEach(function(doc){
                         if(doc.DataCenters){
                             if(doc.DataCenters.length > 0){
+                                var match = false;
                                 doc.DataCenters.forEach(function(dc){
                                     if(dc.DataCenterName === dcName){
+                                        match = true;
                                         res.json(dc);
                                     }
                                 });
-                            }
 
+                                if(!match){
+                                    res.send("no-match");
+                                }
+                            }
                         }
                         else {
                             res.send("no-match");
