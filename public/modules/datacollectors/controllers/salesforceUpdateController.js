@@ -288,8 +288,17 @@ angular.module('datacollectors').controller('SalesforceUpdateController',
         $scope.selectedYear="";
 
         $scope.postUpdate = function(){
+            var oppId;
+
+            if($scope.selectedOpportunityId !== undefined){
+                oppId = $scope.selectedOpportunityId;
+            }
+            else {
+                    oppId = $scope.selectedOpportunity[0].name;
+            }
+
             var postData = {
-                opportunityId: $scope.selectedOpportunity[0].name,
+                opportunityId: oppId,
                 opportunityName: $scope.opportunityName,
                 accountName: $scope.accountName,
                 opportunityOwner: $scope.opportunityOwner,

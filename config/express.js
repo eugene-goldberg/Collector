@@ -251,7 +251,7 @@ module.exports = function(db) {
                             if(isAdmin > 0){
                                 var collection = db.collection('SalesforceData');
 
-                                collection.distinct('CSCOpportunityID', {ProbabilityPct: {$gt: 80}},
+                                collection.distinct('CSCOpportunityID',
                                     (function(err, docs) {
                                         //console.log(docs);
                                         var idList = [];
