@@ -366,6 +366,10 @@ module.exports = function(db) {
                                     }
                                 });
                             }
+
+                        }
+                        else {
+                            res.send("no-match");
                         }
                     });
 

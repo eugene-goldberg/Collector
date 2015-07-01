@@ -114,7 +114,15 @@ angular.module('datacollectors').controller('SalesforceUpdateController',
 
             $http.get('/salesforce_dc_data/?opportunityId=' + opportunityId +'&dcName=' + dcName).success(function(response) {
 
-
+            if(response === "no-match"){
+                console.log('did not get any matching data centers');
+                var matchingDcRecord = $scope.dcNames.filter(function (entry) { return entry.name === dcName; });
+                console.log('matchingDcRecord[0].country: ' + matchingDcRecord[0].country);
+                console.log('matchingDcRecord[0].siteCode: ' + matchingDcRecord[0].siteCode);
+                $scope.dcCountry = matchingDcRecord[0].country;
+                $scope.dcSiteCode = matchingDcRecord[0].siteCode;
+            }
+                else {
             $scope.kwRequired_2016 = response.kwFY16;
             $scope.kwRequired_2017 = response.kwFY17;
             $scope.kwRequired_2018 = response.kwFY18;
@@ -154,6 +162,7 @@ angular.module('datacollectors').controller('SalesforceUpdateController',
                $scope.computeCheckboxModel.serviceManagement = response.serviceManagement;
                $scope.computeCheckboxModel.lan = response.lan;
                $scope.computeCheckboxModel.wan = response.wan;
+            }
 
             });
         }
