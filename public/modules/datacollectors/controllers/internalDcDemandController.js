@@ -108,12 +108,21 @@ angular.module('datacollectors').controller('InternalDcDemandController',
 
                 if($scope.selectedDcName !== undefined){
 
+                    var selectedDc;
+
+                    if($scope.selectedDc !== undefined){
+                        selectedDc = $scope.selectedDc;
+                    }
+                    else {
+                        selectedDc = $scope.selectedDcName[0].name;
+                    }
+
                     var postData = {
                         requestTitle: $scope.requestTitle,
                         requestDescription: $scope.requestDescription,
                         requestorName: $scope.requestorName,
 
-                        dcName: $scope.selectedDcName[0].name,
+                        dcName: selectedDc,
                         dcCountry: $scope.dcCountry,
                         dcSiteCode: $scope.dcSiteCode,
 
