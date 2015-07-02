@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <div ng-controller="InternalDcDemandController">
+        <br>
+        <form name="form" ng-submit="postUpdate();">
+            <div class="form-group">
+                <br>
+                <fieldset>
+                    <div class="row" ng-show="isAdmin">
+                        <div class="col-sm-3">
+                            <label for="opportunityIdSearch">Opportunity Lookup</label>
+                            <input id="opportunityIdSearch" name="opportunityIdSearch" type="text" placeholder="enter opportunity id" class="form-control" ng-model="opportunityIdSearch"/>
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="button" id="searchButton" style="margin-top: 37px;" value="Search" ng-click="getOpportunityDetails(opportunityIdSearch)" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <legend><strong>Internal DC Demand</strong> </legend>
+                        <div class="col-sm-3">
+                            <label for="requestTitle">Request Title</label>
+                            <input id="requestTitle" name="requestTitle" type="text" placeholder="title" class="form-control" ng-model="requestTitle"/>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="requestDescription">Request Description</label>
+                            <input id="requestDescription" name="requestDescription" type="text" placeholder="description" class="form-control" required ng-model="requestDescription"/>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <label for="requestorName">Requestor Name</label>
+                            <input id="requestorName" name="requestorName" type="text" placeholder="requestor name" class="form-control" ng-model="requestorName"/>
+                        </div>
+                    </div>
+
+                    <div>
+                        <br>
+                        <legend><strong>Data Centers associated with this Request</strong> </legend>
+                    </div>
+                    <div class="row">
+                        <div>
+                            <div class="col-sm-9">
+                                <h6>The Data Center selection is not binding, and may be subject to change by the workload placement committee</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <br>
+                        <div class="col-sm-3">
+                            <label for="dcName">Data Center Name</label>
+                            <div id="dcName">
+                                <isteven-multi-select
+                                        input-model="dcNames"
+                                        output-model="selectedDcName"
+                                        button-label="icon name"
+                                        item-label="icon name maker"
+                                        tick-property="ticked"
+                                        selection-mode="single"
+                                        >
+                                </isteven-multi-select>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <label for="dcCountry">Data Center Country</label>
+                            <input id="dcCountry" name="dcCountry" type="text" placeholder="country" class="form-control" ng-model="dcCountry"/>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <label for="dcSiteCode">Data Center Site Code</label>
+                            <input id="dcSiteCode" name="dcSiteCode" type="text" class="form-control" placeholder="data center site code" ng-model="dcSiteCode"/>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <label for="dcSku"></label>
+                            <span id="dcSku"></span>
+                        </div>
+
+                    </div>
+
+                    <div>
+                        <br>
+                        <h4>Compute infrastructure for this Data Center</h4>
+                        <hr>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="as400">AS/400</label>
+                            <input id="as400" type="checkbox" ng-model="computeCheckboxModel.as400">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="bizCloud">Biz Cloud</label>
+                            <input id="bizCloud" type="checkbox" ng-model="computeCheckboxModel.bizCloud">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="bizCloudHc">Biz Cloud HC</label>
+                            <input id="bizCloudHc" type="checkbox" ng-model="computeCheckboxModel.bizCloudHc">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="cloudCompute">Cloud Compute</label>
+                            <input id="cloudCompute" type="checkbox" ng-model="computeCheckboxModel.cloudCompute">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="cyber">Cyber</label>
+                            <input id="cyber" type="checkbox" ng-model="computeCheckboxModel.cyber">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="lan">LAN</label>
+                            <input id="lan" type="checkbox" ng-model="computeCheckboxModel.lan">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="mainframe">Mainframe</label>
+                            <input id="mainframe" type="checkbox" ng-model="computeCheckboxModel.mainframe">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="myWorkstyle">My Workstyle</label>
+                            <input id="myWorkstyle" type="checkbox" ng-model="computeCheckboxModel.myWorkstyle">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="serviceManagement">Service Management</label>
+                            <input id="serviceManagement" type="checkbox" ng-model="computeCheckboxModel.serviceManagement">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="storageAsAService">Storage as a Service</label>
+                            <input id="storageAsAService" type="checkbox" ng-model="computeCheckboxModel.storageAsAService">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="UcaaS">UCaaS</label>
+                            <input id="UcaaS" type="checkbox" ng-model="computeCheckboxModel.UcaaS">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="unixFarm">Unix farm</label>
+                            <input id="unixFarm" type="checkbox" ng-model="computeCheckboxModel.unixFarm">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="wan">WAN</label>
+                            <input id="wan" type="checkbox" ng-model="computeCheckboxModel.wan">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="windowsFarm">Windows farm</label>
+                            <input id="windowsFarm" type="checkbox" ng-model="computeCheckboxModel.windowsFarm">
+                        </div>
+                    </div>
+                    <div>
+                        <br>
+                        <h4>kW Requirement for each contract year</h4>
+                        <hr>
+                    </div>
+                    <div class="col-sm-1">
+                        <label for="kwRequired_2016">2016</label>
+                        <input id="kwRequired_2016" name="kwRequired_2016" type="text" placeholder="kW" class="form-control"  ng-model="kwRequired_2016"/>
+                    </div>
+                    <div class="col-sm-1">
+                        <label for="kwRequired_2017">2017</label>
+                        <input id="kwRequired_2017" name="kwRequired_2017" type="text" placeholder="kW" class="form-control"  ng-model="kwRequired_2017"/>
+                    </div>
+                    <div class="col-sm-1">
+                        <label for="kwRequired_2018">2018</label>
+                        <input id="kwRequired_2018" name="kwRequired_2018" type="text" placeholder="kW" class="form-control" ng-model="kwRequired_2018"/>
+                    </div>
+                    <div class="col-sm-1">
+                        <label for="kwRequired_2019">2019</label>
+                        <input id="kwRequired_2019" name="kwRequired_2019" type="text" placeholder="kW" class="form-control"  ng-model="kwRequired_2019"/>
+                    </div>
+                    <div class="col-sm-1">
+                        <label for="kwRequired_2020">2020</label>
+                        <input id="kwRequired_2020" name="kwRequired_2020" type="text" placeholder="kW" class="form-control"  ng-model="kwRequired_2020"/>
+                    </div>
+                    <div class="col-sm-1">
+                        <label for="kwRequired_2021">2021</label>
+                        <input id="kwRequired_2021" name="kwRequired_2021" type="text" placeholder="kW" class="form-control"  ng-model="kwRequired_2021"/>
+                    </div>
+                    <div class="col-sm-1">
+                        <label for="kwRequired_2022">2022</label>
+                        <input id="kwRequired_2022" name="kwRequired_2022" type="text" placeholder="kW" class="form-control"  ng-model="kwRequired_2022"/>
+                    </div>
+                    <div class="col-sm-1">
+                        <label for="kwRequired_2023">2023</label>
+                        <input id="kwRequired_2023" name="kwRequired_2023" type="text" placeholder="kW" class="form-control"  ng-model="kwRequired_2023"/>
+                    </div>
+                    <div class="col-sm-1">
+                        <label for="kwRequired_2024">2024</label>
+                        <input id="kwRequired_2024" name="kwRequired_2024" type="text" placeholder="kW" class="form-control"  ng-model="kwRequired_2024"/>
+                    </div>
+                    <div class="col-sm-1">
+                        <label for="kwRequired_2025">2025</label>
+                        <input id="kwRequired_2025" name="kwRequired_2025" type="text" placeholder="kW" class="form-control"  ng-model="kwRequired_2025"/>
+                    </div>
+                    <div class-col-sm-1><label for="kwRequired_2025"></label></div>
+                    <div class-col-sm-1><label for="kwRequired_2025"></label></div>
+                    <br>
+
+                    <!--    Cabintes        -->
+
+                    <div>
+                        <br>
+                        <h4># of cabinets for each contract year</h4>
+                        <hr>
+                    </div>
+                    <div class="col-sm-1">
+                        <label for="cbRequired_2016">2016</label>
+                        <input id="cbRequired_2016" name="cbRequired_2016" type="text" placeholder="cab" class="form-control"  ng-model="cbRequired_2016"/>
+                    </div>
+                    <div class="col-sm-1">
+                        <label for="cbRequired_2017">2017</label>
+                        <input id="cbRequired_2017" name="cbRequired_2017" type="text" placeholder="cab" class="form-control"  ng-model="cbRequired_2017"/>
+                    </div>
+                    <div class="col-sm-1">
+                        <label for="cbRequired_2018">2018</label>
+                        <input id="cbRequired_2018" name="cbRequired_2018" type="text" placeholder="cab" class="form-control" ng-model="cbRequired_2018"/>
+                    </div>
+                    <div class="col-sm-1">
+                        <label for="cbRequired_2019">2019</label>
+                        <input id="cbRequired_2019" name="cbRequired_2019" type="text" placeholder="cab" class="form-control"  ng-model="cbRequired_2019"/>
+                    </div>
+                    <div class="col-sm-1">
+                        <label for="cbRequired_2020">2020</label>
+                        <input id="cbRequired_2020" name="cbRequired_2020" type="text" placeholder="cab" class="form-control"  ng-model="cbRequired_2020"/>
+                    </div>
+                    <div class="col-sm-1">
+                        <label for="cbRequired_2021">2021</label>
+                        <input id="cbRequired_2021" name="cbRequired_2021" type="text" placeholder="cab" class="form-control"  ng-model="cbRequired_2021"/>
+                    </div>
+                    <div class="col-sm-1">
+                        <label for="cbRequired_2022">2022</label>
+                        <input id="cbRequired_2022" name="cbRequired_2022" type="text" placeholder="cab" class="form-control"  ng-model="cbRequired_2022"/>
+                    </div>
+                    <div class="col-sm-1">
+                        <label for="cbRequired_2023">2023</label>
+                        <input id="cbRequired_2023" name="cbRequired_2023" type="text" placeholder="cab" class="form-control"  ng-model="cbRequired_2023"/>
+                    </div>
+                    <div class="col-sm-1">
+                        <label for="cbRequired_2024">2024</label>
+                        <input id="cbRequired_2024" name="cbRequired_2024" type="text" placeholder="cab" class="form-control"  ng-model="cbRequired_2024"/>
+                    </div>
+                    <div class="col-sm-1">
+                        <label for="cbRequired_2025">2025</label>
+                        <input id="cbRequired_2025" name="cbRequired_2025" type="text" placeholder="cab" class="form-control"  ng-model="cbRequired_2025"/>
+                    </div>
+
+
+                    <!--  End of  Cabintes        -->
+
+
+                    <div class="col-sm-1">
+                        <input type="submit" id="submit" value="Submit" />
+                    </div>
+                </fieldset>
+            </div>
+        </form>
+
+
+
+
+    </div>
+</body>
+</html>

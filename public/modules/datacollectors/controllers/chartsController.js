@@ -64,7 +64,7 @@ angular.module('datacollectors').controller('chartsController', ['$scope', '$htt
                     verticalAlignment: 'bottom',
                     horizontalAlignment: 'center'
                 },
-                title: 'Salesforce Statistics'
+                title: 'Salesforce DC Demand Statistics'
             };
     }
 ]);

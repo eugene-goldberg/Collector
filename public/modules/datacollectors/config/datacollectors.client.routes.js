@@ -9,6 +9,10 @@ angular.module('datacollectors').config(['$stateProvider',
 			url: '/sfupdate',
 				templateUrl: 'modules/datacollectors/views/salesforce-update.client.view.html'
 		}).
+			state('internal-demand', {
+				url: '/internal-demand',
+				templateUrl: 'modules/datacollectors/views/internal-dc-demand.client.view.html'
+			}).
 			state('dcupdate', {
 				url: '/dcupdate',
 				templateUrl: 'modules/datacollectors/views/dcupdate.client.view.html'
