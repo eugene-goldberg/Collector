@@ -9,13 +9,26 @@ angular.module('datacollectors').controller('InternalDcDemandController',
 
             $scope.dcNames = [];
 
+            $scope.internalDcDemands = [];
+
             $scope.selectedDcName;
+
+            $scope.selectedInternalDcDemand;
 
             function initDcList(){
                 $http.get('/mongodata/?collectionName=DC_Facilities&subject=datacenter-listing').success(function(response) {
                     console.log('found ' + response.length + ' records for datacenter-listing');
                     response.forEach(function(record){
                         $scope.dcNames.push({name: record.DataCenterName, country: record.Country, siteCode: record.DCSiteID,sku: record.SKU});
+                    });
+                });
+            }
+
+            function initInternalDcDemandList(){
+                $http.get('/internal_dc_demand_data/').success(function(response) {
+                    console.log('found ' + response.length + ' records for internal DC demands');
+                    response.forEach(function(record){
+                        $scope.internalDcDemands.push({name: record.RequestTitle});
                     });
                 });
             }
@@ -29,6 +42,63 @@ angular.module('datacollectors').controller('InternalDcDemandController',
                             var matchingDcRecord = $scope.dcNames.filter(function (entry) { return entry.name === newValue[0].name; });
                             $scope.dcCountry = matchingDcRecord[0].country;
                             $scope.dcSiteCode = matchingDcRecord[0].siteCode;
+                        }
+                    }
+                }
+            );
+
+            $scope.$watch(function(scope) {return  $scope.selectedInternalDcDemand },
+                function(newValue, oldValue) {
+                    if(newValue){
+                        if(newValue[0]){
+                            $scope.$parent.selectedName = newValue[0].name;
+                            $http.get('/internal_dc_demand_detail/?requestTitle=' + newValue[0].name).success(function(response) {
+                                $scope.requestTitle = response[0].RequestTitle;
+                                $scope.requestDescription = response[0].RequestDescription;
+                                $scope.requestorName = response[0].RequestorName;
+
+                                $scope.selectedDc = response[0].DataCenterName;
+                                //$scope.selectedDcName.push(response);
+                                //$scope.selectedDcName[0].name = response[0].DataCenterName;
+                                $scope.dcCountry = response[0].DCCountry;
+                                $scope.dcSiteCode = response[0].DCSiteCode;
+
+                                $scope.kwRequired_2016 = response[0].kwFY16;
+                                $scope.kwRequired_2017 = response[0].kwFY17;
+                                $scope.kwRequired_2018 = response[0].kwFY18;
+                                $scope.kwRequired_2019 = response[0].kwFY19;
+                                $scope.kwRequired_2020 = response[0].kwFY20;
+                                $scope.kwRequired_2021 = response[0].kwFY21;
+                                $scope.kwRequired_2022 = response[0].kwFY22;
+                                $scope.kwRequired_2023 = response[0].kwFY23;
+                                $scope.kwRequired_2024 = response[0].kwFY24;
+                                $scope.kwRequired_2025 = response[0].kwFY25;
+
+                                $scope.cbRequired_2016 = response[0].cbFY16;
+                                $scope.cbRequired_2017 = response[0].cbFY17;
+                                $scope.cbRequired_2018 = response[0].cbFY18;
+                                $scope.cbRequired_2019 = response[0].cbFY19;
+                                $scope.cbRequired_2020 = response[0].cbFY20;
+                                $scope.cbRequired_2021 = response[0].cbFY21;
+                                $scope.cbRequired_2022 = response[0].cbFY22;
+                                $scope.cbRequired_2023 = response[0].cbFY23;
+                                $scope.cbRequired_2024 = response[0].cbFY24;
+                                $scope.cbRequired_2025 = response[0].cbFY25;
+
+                                $scope.computeCheckboxModel.cloudCompute = response[0].cloudCompute;
+                                $scope.computeCheckboxModel.bizCloudHc = response[0].bizCloudHc;
+                                $scope.computeCheckboxModel.bizCloud = response[0].bizCloud;
+                                $scope.computeCheckboxModel.storageAsAService = response[0].storageAsAService;
+                                $scope.computeCheckboxModel.mainframe = response[0].mainframe;
+                                $scope.computeCheckboxModel.unixFarm = response[0].unixFarm;
+                                $scope.computeCheckboxModel.windowsFarm = response[0].windowsFarm;
+                                $scope.computeCheckboxModel.as400 = response[0].as400;
+                                $scope.computeCheckboxModel.myWorkstyle = response[0].myWorkstyle;
+                                $scope.computeCheckboxModel.cyber = response[0].cyber;
+                                $scope.computeCheckboxModel.serviceManagement = response[0].serviceManagement;
+                                $scope.computeCheckboxModel.lan = response[0].lan;
+                                $scope.computeCheckboxModel.wan = response[0].wan;
+                            });
                         }
                     }
                 }
@@ -127,6 +197,6 @@ angular.module('datacollectors').controller('InternalDcDemandController',
 
             initDcList();
 
-
+            initInternalDcDemandList();
 
         }]);

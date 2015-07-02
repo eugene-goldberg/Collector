@@ -21,6 +21,21 @@
                         </div>
                     </div>
                     <div class="row">
+                        <label for="internalDemandTitle">Request Title</label>
+                        <div id="internalDemandTitle">
+                            <isteven-multi-select
+                                    input-model="internalDcDemands"
+                                    output-model="selectedInternalDcDemand"
+                                    button-label="icon name"
+                                    item-label="icon name maker"
+                                    tick-property="ticked"
+                                    selection-mode="single"
+                                    >
+                            </isteven-multi-select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <br>
                         <legend><strong>Internal DC Demand</strong> </legend>
                         <div class="col-sm-3">
                             <label for="requestTitle">Request Title</label>
@@ -51,7 +66,7 @@
                     <div class="row">
                         <br>
                         <div class="col-sm-3">
-                            <label for="dcName">Data Center Name</label>
+                            <label for="dcName">Select a Data Center</label>
                             <div id="dcName">
                                 <isteven-multi-select
                                         input-model="dcNames"
@@ -66,6 +81,11 @@
                         </div>
 
                         <div class="col-sm-3">
+                            <label for="selectedDcName">Data Center Name</label>
+                            <input id="selectedDcName" name="selectedDcName" type="text" placeholder="dc name" class="form-control" ng-model="selectedDc"/>
+                        </div>
+
+                        <div class="col-sm-3">
                             <label for="dcCountry">Data Center Country</label>
                             <input id="dcCountry" name="dcCountry" type="text" placeholder="country" class="form-control" ng-model="dcCountry"/>
                         </div>
@@ -74,12 +94,6 @@
                             <label for="dcSiteCode">Data Center Site Code</label>
                             <input id="dcSiteCode" name="dcSiteCode" type="text" class="form-control" placeholder="data center site code" ng-model="dcSiteCode"/>
                         </div>
-
-                        <div class="col-sm-3">
-                            <label for="dcSku"></label>
-                            <span id="dcSku"></span>
-                        </div>
-
                     </div>
 
                     <div>

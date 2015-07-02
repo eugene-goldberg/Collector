@@ -455,6 +455,45 @@ module.exports = function(db) {
         });
     });
 
+    app.get('/internal_dc_demand_data', function(req, res){
+        console.log('_parsedUrl.query:  ' + req._parsedUrl.query);
+        MongoClient.connect(url, function (err, db) {
+            if (err) {
+                console.log('Unable to connect to the mongoDB server. Error:', err);
+            } else {
+                console.log('Connection established to', url);
+
+                var collection = db.collection('InternalDcDemand');
+
+                collection.find({}).toArray(function(err, docs) {
+                    res.json(docs);
+                    assert.equal(null, err);
+                    db.close();
+                });
+            }
+        });
+    });
+
+    app.get('/internal_dc_demand_detail', function(req, res){
+        console.log('_parsedUrl.query:  ' + req._parsedUrl.query);
+        var requestTitle = req._parsedUrl.query.split('=')[1];
+        MongoClient.connect(url, function (err, db) {
+            if (err) {
+                console.log('Unable to connect to the mongoDB server. Error:', err);
+            } else {
+                console.log('Connection established to', url);
+
+                var collection = db.collection('InternalDcDemand');
+
+                collection.find({RequestTitle:requestTitle}).toArray(function(err, docs) {
+                    res.json(docs);
+                    assert.equal(null, err);
+                    db.close();
+                });
+            }
+        });
+    });
+
     app.get('/salesforce_quote', function(req, res){
         console.log('_parsedUrl.query:  ' + req._parsedUrl.query);
         var file = fs.createReadStream('public/modules/datacollectors/' + req._parsedUrl.query.split('=')[1]);
@@ -804,44 +843,48 @@ module.exports = function(db) {
                         else{
                             console.log('update result:  ' + result);
 
-                            var fileName = 'quote_' + Math.random() + '.pdf';
-                                                    var html = fs.readFileSync('public/modules/datacollectors/template.html', 'utf8');
+                            setTimeout(function(){
+                                var fileName = 'quote_' + Math.random() + '.pdf';
+                                var html = fs.readFileSync('public/modules/datacollectors/template.html', 'utf8');
 
-                                                    var tmpl = swig.compileFile('public/modules/datacollectors/template.html'),
-                                                        renderedHtml = tmpl({
-                                                            DcName: req.body.dcName,
-                                                            OpportunityId:  req.body.opportunityId,
-                                                            OpportunityName:  req.body.opportunityName,
-                                                            AccountName:    req.body.accountName,
-                                                            kWLeased2016: Math.round(((Number(req.body.kwRequired_2016) * 185) * 12)),
-                                                            kWLeased2017: Math.round(((Number(req.body.kwRequired_2017) * 185) * 12)),
-                                                            kWLeased2018: Math.round(((Number(req.body.kwRequired_2018) * 185) * 12)),
-                                                            kWLeased2019: Math.round(((Number(req.body.kwRequired_2019) * 185) * 12)),
-                                                            kWLeased2020: Math.round(((Number(req.body.kwRequired_2020) * 185) * 12)),
-                                                            kWLeased2021: Math.round(((Number(req.body.kwRequired_2021) * 185) * 12)),
-                                                            kWLeased2022: Math.round(((Number(req.body.kwRequired_2022) * 185) * 12)),
-                                                            kWLeased2023: Math.round(((Number(req.body.kwRequired_2023) * 185) * 12)),
-                                                            kWLeased2024: Math.round(((Number(req.body.kwRequired_2024) * 185) * 12)),
-                                                            kWLeased2025: Math.round(((Number(req.body.kwRequired_2025) * 185) * 12)),
+                                var tmpl = swig.compileFile('public/modules/datacollectors/template.html'),
+                                    renderedHtml = tmpl({
+                                        DcName: req.body.dcName,
+                                        OpportunityId:  req.body.opportunityId,
+                                        OpportunityName:  req.body.opportunityName,
+                                        AccountName:    req.body.accountName,
+                                        kWLeased2016: Math.round(((Number(req.body.kwRequired_2016) * 185) * 12)),
+                                        kWLeased2017: Math.round(((Number(req.body.kwRequired_2017) * 185) * 12)),
+                                        kWLeased2018: Math.round(((Number(req.body.kwRequired_2018) * 185) * 12)),
+                                        kWLeased2019: Math.round(((Number(req.body.kwRequired_2019) * 185) * 12)),
+                                        kWLeased2020: Math.round(((Number(req.body.kwRequired_2020) * 185) * 12)),
+                                        kWLeased2021: Math.round(((Number(req.body.kwRequired_2021) * 185) * 12)),
+                                        kWLeased2022: Math.round(((Number(req.body.kwRequired_2022) * 185) * 12)),
+                                        kWLeased2023: Math.round(((Number(req.body.kwRequired_2023) * 185) * 12)),
+                                        kWLeased2024: Math.round(((Number(req.body.kwRequired_2024) * 185) * 12)),
+                                        kWLeased2025: Math.round(((Number(req.body.kwRequired_2025) * 185) * 12)),
 
-                                                            electricBudget2016: Math.round((((Number(req.body.kwRequired_2016) * 720) * 12) * 0.09)),
-                                                            electricBudget2017: Math.round((((Number(req.body.kwRequired_2017) * 720) * 12) * 0.09)),
-                                                            electricBudget2018: Math.round((((Number(req.body.kwRequired_2018) * 720) * 12) * 0.09)),
-                                                            electricBudget2019: Math.round((((Number(req.body.kwRequired_2019) * 720) * 12) * 0.09)),
-                                                            electricBudget2020: Math.round((((Number(req.body.kwRequired_2020) * 720) * 12) * 0.09)),
-                                                            electricBudget2021: Math.round((((Number(req.body.kwRequired_2021) * 720) * 12) * 0.09)),
-                                                            electricBudget2022: Math.round((((Number(req.body.kwRequired_2022) * 720) * 12) * 0.09)),
-                                                            electricBudget2023: Math.round((((Number(req.body.kwRequired_2023) * 720) * 12) * 0.09)),
-                                                            electricBudget2024: Math.round((((Number(req.body.kwRequired_2024) * 720) * 12) * 0.09)),
-                                                            electricBudget2025: Math.round((((Number(req.body.kwRequired_2025) * 720) * 12) * 0.09))
-                                                        });
+                                        electricBudget2016: Math.round((((Number(req.body.kwRequired_2016) * 720) * 12) * 0.09)),
+                                        electricBudget2017: Math.round((((Number(req.body.kwRequired_2017) * 720) * 12) * 0.09)),
+                                        electricBudget2018: Math.round((((Number(req.body.kwRequired_2018) * 720) * 12) * 0.09)),
+                                        electricBudget2019: Math.round((((Number(req.body.kwRequired_2019) * 720) * 12) * 0.09)),
+                                        electricBudget2020: Math.round((((Number(req.body.kwRequired_2020) * 720) * 12) * 0.09)),
+                                        electricBudget2021: Math.round((((Number(req.body.kwRequired_2021) * 720) * 12) * 0.09)),
+                                        electricBudget2022: Math.round((((Number(req.body.kwRequired_2022) * 720) * 12) * 0.09)),
+                                        electricBudget2023: Math.round((((Number(req.body.kwRequired_2023) * 720) * 12) * 0.09)),
+                                        electricBudget2024: Math.round((((Number(req.body.kwRequired_2024) * 720) * 12) * 0.09)),
+                                        electricBudget2025: Math.round((((Number(req.body.kwRequired_2025) * 720) * 12) * 0.09))
+                                    });
 
-                                                    var options = { filename: 'public/modules/datacollectors/' + fileName, format: 'Letter' };
-                                                    pdf.create(renderedHtml, options).toFile(function(err, res) {
-                                                        if (err) return console.log(err);
-                                                        console.log(res);
-                                                    });
-                                                    res.send(201,fileName);
+                                var options = { filename: 'public/modules/datacollectors/' + fileName, format: 'Letter' };
+                                pdf.create(renderedHtml, options).toFile(function(err, res) {
+                                    if (err) return console.log(err);
+                                    console.log(res);
+                                });
+                                res.send(201,fileName);
+                            },800);
+
+
                         }
                     });
 
